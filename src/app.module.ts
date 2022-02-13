@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { AccountModule } from './account/account.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CoreModule } from './core/core.module';
+import { User } from './account/entity/user.entity';
 
 @Module({
     imports: [
@@ -18,8 +20,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
             database: process.env.POSTGRES_DATABASE,
             synchronize: true,
             host: process.env.POSTGRES_HOST,
-            entities: [],
+            entities: [User],
         }),
+        CoreModule,
         AccountModule,
     ],
     controllers: [],
