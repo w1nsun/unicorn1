@@ -9,4 +9,4 @@ import { CoreModule } from '../core/core.module';
     controllers: [UserController],
     exports: [UserService],
 })
-export class AccountModule {}
+export class UserModule {}

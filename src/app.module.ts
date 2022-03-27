@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AccountModule } from './account/account.module';
+import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoreModule } from './core/core.module';
-import { User } from './account/entity/user.entity';
+import { User } from './user/entity/user.entity';
 
 @Module({
     imports: [
@@ -23,7 +23,7 @@ import { User } from './account/entity/user.entity';
             entities: [User],
         }),
         CoreModule,
-        AccountModule,
+        UserModule,
     ],
     controllers: [],
     providers: [],
