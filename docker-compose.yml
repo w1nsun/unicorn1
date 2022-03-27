@@ -1,33 +1,38 @@
 version: "3.8"
 
 services:
-  mysql:
-    container_name: unicorn1-mysql
-    image: mysql:8.0.23
-    command: --default-authentication-plugin=mysql_native_password
-    environment:
-      MYSQL_ROOT_PASSWORD: example
-    ports:
-      - 3306:3306
+#  mysql:
+#    container_name: unicorn1-mysql
+#    image: mysql:8.0.23
+#    command: --default-authentication-plugin=mysql_native_password
+#    environment:
+#      MYSQL_ROOT_PASSWORD: example
+#    ports:
+#      - 3306:3306
 
   postgres:
     container_name: unicorn1-postgres
     image: postgres:13.1
-    environment:
-      POSTGRES_PASSWORD: root
     ports:
       - 5432:5432
-
-  mongo:
-    image: mongo:4.4
-    container_name: unicorn1-mongo
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=admin
-    ports:
-      - 27017:27017
     volumes:
-      - ./mongo-data-4.4:/data/db
+      - ./postgres/data:/var/lib/postgresql/data
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_DB=unicorn1
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+
+#  mongo:
+#    image: mongo:4.4
+#    container_name: unicorn1-mongo
+#    environment:
+#      - MONGO_INITDB_ROOT_USERNAME=admin
+#      - MONGO_INITDB_ROOT_PASSWORD=admin
+#    ports:
+#      - 27017:27017
+#    volumes:
+#      - ./mongo-data-4.4:/data/db
 
   adminer:
     image: adminer
