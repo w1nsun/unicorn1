@@ -9,46 +9,27 @@ import {
 @Entity('users')
 export class User {
     @PrimaryColumn({ type: 'uuid' })
-    private readonly id: string;
+    public readonly id: string;
 
     @Column()
-    private login: string;
+    public login: string;
 
     @Column()
-    private password: string;
+    public password: string;
 
     @Column({ default: true })
-    private active: boolean;
+    public active: boolean;
 
     @CreateDateColumn()
-    private createdAt: Date;
+    public createdAt: Date;
 
     @UpdateDateColumn()
-    private updatedAt: Date | null;
+    public updatedAt: Date | null;
 
-    constructor(id: string, login: string, password: string) {
+    constructor(id: string, login: string, password: string, active: boolean) {
         this.id = id;
         this.login = login;
         this.password = password;
-    }
-
-    getId(): string {
-        return this.id;
-    }
-
-    getLogin(): string {
-        return this.login;
-    }
-
-    setLogin(login: string): void {
-        this.login = login;
-    }
-
-    isActive(): boolean {
-        return this.active;
-    }
-
-    setActive(active: boolean): void {
         this.active = active;
     }
 }
