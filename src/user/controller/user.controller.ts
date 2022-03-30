@@ -7,6 +7,7 @@ import {
     Param,
     BadRequestException,
     ParseUUIDPipe,
+    InternalServerErrorException,
 } from '@nestjs/common';
 import { UserService } from '../service/user.service';
 import { CreateUserDto } from '../dto/create-user.dto';
@@ -26,6 +27,20 @@ export class UserController {
         return users.map((entity: User) => UserDto.fromEntity(entity));
     }
 
+    @Get(':id')
+    async getUser(@Param('id', ParseUUIDPipe) id: string): Promise<UserDto> {
+        try {
+            const user = await this.userService.getUserById(id);
+            return UserDto.fromEntity(user);
+        } catch (error) {
+            if (error instanceof UserNotFoundException) {
+                throw new BadRequestException(error.message);
+            }
+
+            throw new InternalServerErrorException();
+        }
+    }
+
     @Post()
     async createUser(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
         const user = await this.userService.createUser(createUserDto);
@@ -42,12 +57,11 @@ export class UserController {
             const user = await this.userService.updateUser(id, updateUserDto);
             return UserDto.fromEntity(user);
         } catch (error) {
-            console.log(error);
             if (error instanceof UserNotFoundException) {
                 throw new BadRequestException(error.message);
             }
 
-            throw new BadRequestException('www');
+            throw new InternalServerErrorException();
         }
     }
 }

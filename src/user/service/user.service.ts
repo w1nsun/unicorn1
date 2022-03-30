@@ -28,13 +28,7 @@ export class UserService {
 
     async updateUser(id: string, updateUser: UpdateUserDto): Promise<User> {
         const userRepo = this.connection.getRepository(User);
-        const user: User | undefined = await userRepo.findOne({
-            where: { id },
-        });
-
-        if (!user) {
-            throw new UserNotFoundException(`User ${id} not found`);
-        }
+        const user: User = await this.getUserById(id);
 
         user.active = updateUser.active;
         await userRepo.save(user);
@@ -46,5 +40,18 @@ export class UserService {
         const userRepo = this.connection.getRepository(User);
 
         return await userRepo.find();
+    }
+
+    async getUserById(id: string): Promise<User> {
+        const userRepo = this.connection.getRepository(User);
+        const user: User | undefined = await userRepo.findOne({
+            where: { id },
+        });
+
+        if (!user) {
+            throw new UserNotFoundException(`User ${id} not found`);
+        }
+
+        return user;
     }
 }
