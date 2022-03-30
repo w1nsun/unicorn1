@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoreModule } from './core/core.module';
 import { User } from './user/entity/user.entity';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 @Module({
     imports: [
@@ -21,6 +22,14 @@ import { User } from './user/entity/user.entity';
             synchronize: true,
             host: process.env.POSTGRES_HOST,
             entities: [User],
+            namingStrategy: new SnakeNamingStrategy(),
+            dropSchema: Boolean(
+                parseInt(
+                    process.env.DB_DROP_SCHEMA !== undefined
+                        ? process.env.DB_DROP_SCHEMA
+                        : '0',
+                ),
+            ),
         }),
         CoreModule,
         UserModule,
