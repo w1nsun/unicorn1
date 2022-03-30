@@ -15,6 +15,7 @@ import { UserDto } from '../dto/user.dto';
 import { User } from '../entity/user.entity';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserNotFoundException } from '../exception/user-not-found.exception';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('/users')
 export class UserController {
@@ -41,6 +42,8 @@ export class UserController {
         }
     }
 
+    @ApiOperation({ summary: 'Create User' })
+    @ApiResponse({ type: UserDto })
     @Post()
     async createUser(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
         const user = await this.userService.createUser(createUserDto);
