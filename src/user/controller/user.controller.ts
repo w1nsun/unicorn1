@@ -1,13 +1,13 @@
 import {
+    BadRequestException,
     Body,
     Controller,
     Get,
+    InternalServerErrorException,
+    Param,
+    ParseUUIDPipe,
     Post,
     Put,
-    Param,
-    BadRequestException,
-    ParseUUIDPipe,
-    InternalServerErrorException,
 } from '@nestjs/common';
 import { UserService } from '../service/user.service';
 import { CreateUserDto } from '../dto/create-user.dto';
@@ -17,7 +17,7 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserNotFoundException } from '../exception/user-not-found.exception';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
-@Controller('/users')
+@Controller('/user')
 export class UserController {
     constructor(private userService: UserService) {}
 

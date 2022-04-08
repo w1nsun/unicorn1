@@ -5,6 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoreModule } from './core/core.module';
 import { User } from './user/entity/user.entity';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { ChainModule } from './chain/chain.module';
+import { Employee } from './user/entity/employee.entity';
+import { Chain } from './chain/entity/chain.entity';
 
 @Module({
     imports: [
@@ -21,7 +24,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
             database: process.env.POSTGRES_DATABASE,
             synchronize: true,
             host: process.env.POSTGRES_HOST,
-            entities: [User],
+            entities: [User, Employee, Chain],
             namingStrategy: new SnakeNamingStrategy(),
             dropSchema: Boolean(
                 parseInt(
@@ -33,6 +36,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
         }),
         CoreModule,
         UserModule,
+        ChainModule,
     ],
     controllers: [],
     providers: [],
