@@ -5,7 +5,9 @@ import { AbstractEntityController } from '../../core/controller/abstract-entity.
 import { ChainService } from '../service/chain.service';
 import { Chain } from '../entity/chain.entity';
 import { ChainDto } from '../dto/chain.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Chain')
 @Controller('/chain')
 export class ChainController extends AbstractEntityController<
     Chain,

@@ -1,6 +1,13 @@
-import { Get } from '@nestjs/common';
+import {
+    BadRequestException,
+    Get,
+    InternalServerErrorException,
+    Param,
+    ParseUUIDPipe,
+} from '@nestjs/common';
 import { AbstractEntityService } from '../service/abstract-entity.service';
 import { DtoFactoryType } from '../type/dto-factory.type';
+import { EntityNotFoundException } from '../exception/entity-not-found.exception';
 
 export abstract class AbstractEntityController<
     TEntity,
@@ -14,29 +21,32 @@ export abstract class AbstractEntityController<
             TCreateDto,
             TUpdateDto
         >,
-        protected dto: DtoFactoryType<TEntity, TDto>,
+        protected dtoFactoryMethod: DtoFactoryType<TEntity, TDto>,
     ) {}
 
     @Get()
     async getAll(): Promise<TDto[]> {
         const employees = await this.service.getAll();
 
-        return employees.map((entity: TEntity) => this.dto(entity));
+        return employees.map((entity: TEntity) =>
+            this.dtoFactoryMethod(entity),
+        );
     }
 
-    // @Get(':id')
-    // async getById(@Param('id', ParseUUIDPipe) id: string): Promise<Dto> {
-    //     try {
-    //         const employee = await this.employeeService.getEmployeeById(id);
-    //         return EmployeeDto.fromEntity(employee);
-    //     } catch (error) {
-    //         if (error instanceof EmployeeNotFoundException) {
-    //             throw new BadRequestException(error.message);
-    //         }
-    //
-    //         throw new InternalServerErrorException();
-    //     }
-    // }
+    @Get(':id')
+    async getById(@Param('id', ParseUUIDPipe) id: string): Promise<TDto> {
+        try {
+            const entity = await this.service.getById(id);
+            return this.dtoFactoryMethod(entity);
+        } catch (error) {
+            if (error instanceof EntityNotFoundException) {
+                throw new BadRequestException(error.message);
+            }
+
+            throw new InternalServerErrorException();
+        }
+    }
+
     //
     // @ApiOperation({ summary: 'Create Employee' })
     // @ApiResponse({ type: EmployeeDto })
