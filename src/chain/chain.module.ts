@@ -5,6 +5,7 @@ import { ChainController } from './controller/chain.controller';
 import { Connection } from 'typeorm';
 import { UuidService } from '../core/service/uuid.service';
 import { Chain } from './entity/chain.entity';
+import { AgencyController } from './controller/agency.controller';
 
 @Module({
     imports: [CoreModule],
@@ -17,7 +18,7 @@ import { Chain } from './entity/chain.entity';
             inject: [Connection, UuidService],
         },
     ],
-    controllers: [ChainController],
+    controllers: [ChainController, AgencyController],
     exports: [ChainService],
 })
 export class ChainModule {}

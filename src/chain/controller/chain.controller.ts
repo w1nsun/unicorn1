@@ -23,8 +23,8 @@ export class ChainController extends AbstractEntityController<
     UpdateChainDto,
     CreateChainDto
 > {
-    constructor(employeeService: ChainService) {
-        super(employeeService, function (entity: Chain) {
+    constructor(chainService: ChainService) {
+        super(chainService, function (entity: Chain) {
             return ChainDto.fromEntity(entity);
         });
     }

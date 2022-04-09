@@ -8,6 +8,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { ChainModule } from './chain/chain.module';
 import { Employee } from './user/entity/employee.entity';
 import { Chain } from './chain/entity/chain.entity';
+import { Agency } from './chain/entity/agency.entity';
 
 @Module({
     imports: [
@@ -24,7 +25,7 @@ import { Chain } from './chain/entity/chain.entity';
             database: process.env.POSTGRES_DATABASE,
             synchronize: true,
             host: process.env.POSTGRES_HOST,
-            entities: [User, Employee, Chain],
+            entities: [User, Employee, Chain, Agency],
             namingStrategy: new SnakeNamingStrategy(),
             dropSchema: Boolean(
                 parseInt(
