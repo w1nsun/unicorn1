@@ -9,7 +9,7 @@ import {
     Post,
     Put,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { EmployeeService } from '../service/employee.service';
 import { EmployeeDto } from '../dto/employee.dto';
 import { Employee } from '../entity/employee.entity';
@@ -17,6 +17,7 @@ import { EmployeeNotFoundException } from '../exception/employee-not-found.excep
 import { CreateEmployeeDto } from '../dto/create-employee.dto';
 import { UpdateEmployeeDto } from '../dto/update-employee.dto';
 
+@ApiTags('Employee')
 @Controller('/employee')
 export class EmployeeController {
     constructor(private employeeService: EmployeeService) {}

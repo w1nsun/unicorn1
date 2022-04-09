@@ -1,9 +1,12 @@
 import {
     BadRequestException,
+    Body,
     Get,
     InternalServerErrorException,
     Param,
     ParseUUIDPipe,
+    Post,
+    Put,
 } from '@nestjs/common';
 import { AbstractEntityService } from '../service/abstract-entity.service';
 import { DtoFactoryType } from '../type/dto-factory.type';
@@ -26,11 +29,9 @@ export abstract class AbstractEntityController<
 
     @Get()
     async getAll(): Promise<TDto[]> {
-        const employees = await this.service.getAll();
+        const entities = await this.service.getAll();
 
-        return employees.map((entity: TEntity) =>
-            this.dtoFactoryMethod(entity),
-        );
+        return entities.map((entity: TEntity) => this.dtoFactoryMethod(entity));
     }
 
     @Get(':id')
@@ -47,30 +48,27 @@ export abstract class AbstractEntityController<
         }
     }
 
-    //
-    // @ApiOperation({ summary: 'Create Employee' })
-    // @ApiResponse({ type: EmployeeDto })
-    // @Post()
-    // async create(@Body() dto: CreateChainDto): Promise<EmployeeDto> {
-    //     const employee = await this.employeeService.createEmployee(dto);
-    //
-    //     return EmployeeDto.fromEntity(employee);
-    // }
-    //
-    // @Put(':id')
-    // async update(
-    //     @Param('id', ParseUUIDPipe) id: string,
-    //     @Body() dto: UpdateChainDto,
-    // ): Promise<EmployeeDto> {
-    //     try {
-    //         const employee = await this.employeeService.updateEmployee(id, dto);
-    //         return EmployeeDto.fromEntity(employee);
-    //     } catch (error) {
-    //         if (error instanceof EmployeeNotFoundException) {
-    //             throw new BadRequestException(error.message);
-    //         }
-    //
-    //         throw new InternalServerErrorException();
-    //     }
-    // }
+    @Post()
+    async create(@Body() dto: TCreateDto): Promise<TDto> {
+        const entity = await this.service.create(dto);
+
+        return this.dtoFactoryMethod(entity);
+    }
+
+    @Put(':id')
+    async update(
+        @Param('id', ParseUUIDPipe) id: string,
+        @Body() dto: TUpdateDto,
+    ): Promise<TDto> {
+        try {
+            const entity = await this.service.update(id, dto);
+            return this.dtoFactoryMethod(entity);
+        } catch (error) {
+            if (error instanceof EntityNotFoundException) {
+                throw new BadRequestException(error.message);
+            }
+
+            throw new InternalServerErrorException();
+        }
+    }
 }

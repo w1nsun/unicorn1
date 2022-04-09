@@ -15,8 +15,9 @@ import { UserDto } from '../dto/user.dto';
 import { User } from '../entity/user.entity';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserNotFoundException } from '../exception/user-not-found.exception';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('User')
 @Controller('/user')
 export class UserController {
     constructor(private userService: UserService) {}
