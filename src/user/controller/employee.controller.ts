@@ -51,7 +51,7 @@ export class EmployeeController {
     @ApiResponse({ type: EmployeeDto })
     @Post()
     async createEmployee(@Body() dto: CreateEmployeeDto): Promise<EmployeeDto> {
-        const employee = await this.employeeService.createEmployee(dto);
+        const employee = await this.employeeService.create(dto);
 
         return EmployeeDto.fromEntity(employee);
     }
@@ -62,7 +62,7 @@ export class EmployeeController {
         @Body() dto: UpdateEmployeeDto,
     ): Promise<EmployeeDto> {
         try {
-            const employee = await this.employeeService.updateEmployee(id, dto);
+            const employee = await this.employeeService.update(id, dto);
             return EmployeeDto.fromEntity(employee);
         } catch (error) {
             if (error instanceof EmployeeNotFoundException) {

@@ -5,31 +5,44 @@ import { CreateEmployeeDto } from '../dto/create-employee.dto';
 import { Employee } from '../entity/employee.entity';
 import { UpdateEmployeeDto } from '../dto/update-employee.dto';
 import { EmployeeNotFoundException } from '../exception/employee-not-found.exception';
+import { Chain } from '../../chain/entity/chain.entity';
+import { AbstractEntityService } from '../../core/service/abstract-entity.service';
+import { EntityTarget } from 'typeorm/common/EntityTarget';
+import { ChainService } from '../../chain/service/chain.service';
 
 @Injectable()
-export class EmployeeService {
+export class EmployeeService extends AbstractEntityService<
+    Employee,
+    CreateEmployeeDto,
+    UpdateEmployeeDto
+> {
     constructor(
-        private connection: Connection,
-        private uuidService: UuidService,
-    ) {}
+        connection: Connection,
+        uuidService: UuidService,
+        entityName: EntityTarget<Employee>,
+        private chainService: ChainService,
+    ) {
+        super(connection, uuidService, entityName);
 
-    async createEmployee(dto: CreateEmployeeDto): Promise<Employee> {
+        this.chainService = chainService;
+    }
+
+    async create(dto: CreateEmployeeDto): Promise<Employee> {
         const repo = this.connection.getRepository(Employee);
-        const { login, password, active } = { ...dto };
+        const { login, password, active, chainId } = { ...dto };
+        const chain: Chain = await this.chainService.getById(chainId);
         const entity = new Employee(
             this.uuidService.generateV4(),
             login,
             password,
             active,
+            chain,
         );
 
         return await repo.save(entity);
     }
 
-    async updateEmployee(
-        id: string,
-        dto: UpdateEmployeeDto,
-    ): Promise<Employee> {
+    async update(id: string, dto: UpdateEmployeeDto): Promise<Employee> {
         const repo = this.connection.getRepository(Employee);
         const entity: Employee = await this.getEmployeeById(id);
 
