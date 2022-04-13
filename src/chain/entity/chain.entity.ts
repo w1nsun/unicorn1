@@ -2,9 +2,11 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    OneToMany,
     PrimaryColumn,
     UpdateDateColumn,
 } from 'typeorm';
+import { Agency } from './agency.entity';
 
 @Entity('chains')
 export class Chain {
@@ -16,6 +18,9 @@ export class Chain {
 
     @Column({ default: true })
     public active: boolean;
+
+    @OneToMany(() => Agency, (agency) => agency.chain)
+    public agencies: Agency[];
 
     @CreateDateColumn()
     public createdAt: Date;

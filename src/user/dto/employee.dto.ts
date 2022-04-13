@@ -12,6 +12,9 @@ export class EmployeeDto {
     active: boolean;
 
     @ApiProperty()
+    chainId: string;
+
+    @ApiProperty()
     createdAt: Date;
 
     @ApiProperty({ type: Date })
@@ -22,6 +25,7 @@ export class EmployeeDto {
         dto.id = entity.id;
         dto.login = entity.login;
         dto.active = entity.active;
+        dto.chainId = entity.chain.id;
         dto.createdAt = entity.createdAt;
         dto.updatedAt = entity.updatedAt;
 

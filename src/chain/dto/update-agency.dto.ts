@@ -1,3 +1,3 @@
-import { CreateChainDto } from './create-chain.dto';
+import { CreateAgencyDto } from './create-agency.dto';
 
-export class UpdateAgencyDto extends CreateChainDto {}
+export class UpdateAgencyDto extends CreateAgencyDto {}

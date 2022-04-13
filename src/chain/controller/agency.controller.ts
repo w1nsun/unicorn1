@@ -8,13 +8,12 @@ import {
     Put,
 } from '@nestjs/common';
 import { AbstractEntityController } from '../../core/controller/abstract-entity.controller';
-import { ChainService } from '../service/chain.service';
-import { Chain } from '../entity/chain.entity';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Agency } from '../entity/agency.entity';
 import { AgencyDto } from '../dto/agency.dto';
 import { UpdateAgencyDto } from '../dto/update-agency.dto';
 import { CreateAgencyDto } from '../dto/create-agency.dto';
+import { AgencyService } from '../service/agency.service';
 
 @ApiTags('Agency')
 @Controller('/agency')
@@ -24,8 +23,8 @@ export class AgencyController extends AbstractEntityController<
     UpdateAgencyDto,
     CreateAgencyDto
 > {
-    constructor(agencyService: ChainService) {
-        super(agencyService, function (entity: Chain) {
+    constructor(agencyService: AgencyService) {
+        super(agencyService, function (entity: Agency) {
             return AgencyDto.fromEntity(entity);
         });
     }

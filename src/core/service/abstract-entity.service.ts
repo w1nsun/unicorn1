@@ -2,6 +2,7 @@ import { Connection, Repository } from 'typeorm';
 import { UuidService } from './uuid.service';
 import { EntityTarget } from 'typeorm/common/EntityTarget';
 import { EntityNotFoundException } from '../exception/entity-not-found.exception';
+import { FindManyOptions } from 'typeorm/find-options/FindManyOptions';
 
 export abstract class AbstractEntityService<Entity, CreateDto, UpdateDto> {
     protected repo: Repository<Entity>;
@@ -18,8 +19,8 @@ export abstract class AbstractEntityService<Entity, CreateDto, UpdateDto> {
 
     abstract update(id: string, dto: UpdateDto): Promise<Entity>;
 
-    async getAll(): Promise<Entity[]> {
-        return await this.repo.find();
+    async getAll(options?: FindManyOptions<Entity>): Promise<Entity[]> {
+        return await this.repo.find(options);
     }
 
     async getById(id: string): Promise<Entity> {

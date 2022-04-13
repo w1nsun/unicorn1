@@ -52,12 +52,6 @@ export class EmployeeService extends AbstractEntityService<
         return entity;
     }
 
-    async getAllEmployees() {
-        const repo = this.connection.getRepository(Employee);
-
-        return await repo.find();
-    }
-
     async getEmployeeById(id: string): Promise<Employee> {
         const repo = this.connection.getRepository(Employee);
         const entity: Employee | undefined = await repo.findOne({

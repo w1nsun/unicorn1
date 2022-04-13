@@ -24,7 +24,9 @@ export class EmployeeController {
 
     @Get()
     async getEmployees(): Promise<EmployeeDto[]> {
-        const employees = await this.employeeService.getAllEmployees();
+        const employees = await this.employeeService.getAll({
+            relations: ['chain'],
+        });
 
         return employees.map((entity: Employee) =>
             EmployeeDto.fromEntity(entity),

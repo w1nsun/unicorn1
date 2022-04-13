@@ -2,9 +2,11 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    ManyToOne,
     PrimaryColumn,
     UpdateDateColumn,
 } from 'typeorm';
+import { Chain } from './chain.entity';
 
 @Entity('agencies')
 export class Agency {
@@ -17,15 +19,19 @@ export class Agency {
     @Column({ default: true })
     public active: boolean;
 
+    @ManyToOne(() => Chain, (chain) => chain.id)
+    chain: Chain;
+
     @CreateDateColumn()
     public createdAt: Date;
 
     @UpdateDateColumn()
     public updatedAt: Date | null;
 
-    constructor(id: string, title: string, active: boolean) {
+    constructor(id: string, title: string, active: boolean, chain: Chain) {
         this.id = id;
         this.title = title;
         this.active = active;
+        this.chain = chain;
     }
 }
