@@ -23,7 +23,7 @@ const loadFixtures = async (sqlFileName: string) => {
     }
 };
 
-describe('Users (e2e)', () => {
+describe('Chains (e2e)', () => {
     beforeAll(async () => {
         mod = await Test.createTestingModule({
             imports: [AppModule],
@@ -39,19 +39,19 @@ describe('Users (e2e)', () => {
         await app.close();
     });
 
-    it('should return an empty list of users', async () => {
+    it('should return an empty list of chains', async () => {
         return request(app.getHttpServer())
-            .get('/user')
+            .get('/chain')
             .expect(200)
             .then((response) => {
                 expect(response.body.length).toBe(0);
             });
     });
 
-    it('should return 1 user in list', async () => {
-        await loadFixtures('1-user.sql');
+    it('should return 1 chain in list', async () => {
+        await loadFixtures('1-chain.sql');
         return request(app.getHttpServer())
-            .get('/user')
+            .get('/chain')
             .expect(200)
             .then((response) => {
                 expect(response.body.length).toBe(1);

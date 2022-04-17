@@ -4,7 +4,6 @@ import { UuidService } from '../../core/service/uuid.service';
 import { Chain } from '../entity/chain.entity';
 import { AbstractEntityService } from '../../core/service/abstract-entity.service';
 import { EntityTarget } from 'typeorm/common/EntityTarget';
-import { CreateChainDto } from '../dto/create-chain.dto';
 import { UpdateChainDto } from '../dto/update-chain.dto';
 import { Agency } from '../entity/agency.entity';
 import { CreateAgencyDto } from '../dto/create-agency.dto';
@@ -26,7 +25,7 @@ export class AgencyService extends AbstractEntityService<
         super(connection, uuidService, entityName);
     }
 
-    async create(dto: CreateChainDto): Promise<Agency> {
+    async create(dto: CreateAgencyDto): Promise<Agency> {
         const { title, active, chainId } = { ...dto };
         const chain: Chain = await this.chainService.getById(chainId);
         const entity = new Agency(
