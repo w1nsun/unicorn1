@@ -9,6 +9,7 @@ import { AgencyController } from './controller/agency.controller';
 import { ChainExistsValidator } from './validator/chain-exists/chain-exists.validator';
 import { AgencyService } from './service/agency.service';
 import { Agency } from './entity/agency.entity';
+import { ChainFixture } from './fixture/chain.fixture';
 
 @Module({
     imports: [CoreModule],
@@ -37,8 +38,9 @@ import { Agency } from './entity/agency.entity';
             inject: [Connection, UuidService, ChainService],
         },
         ChainExistsValidator,
+        ChainFixture,
     ],
     controllers: [ChainController, AgencyController],
-    exports: [ChainService],
+    exports: [ChainService, ChainFixture],
 })
 export class ChainModule {}
