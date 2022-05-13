@@ -11,11 +11,7 @@ import { UpdateAgencyDto } from '../dto/update-agency.dto';
 import { ChainService } from './chain.service';
 
 @Injectable()
-export class AgencyService extends AbstractEntityService<
-    Agency,
-    CreateAgencyDto,
-    UpdateAgencyDto
-> {
+export class AgencyService extends AbstractEntityService<Agency, CreateAgencyDto, UpdateAgencyDto> {
     constructor(
         connection: Connection,
         uuidService: UuidService,
@@ -28,12 +24,7 @@ export class AgencyService extends AbstractEntityService<
     async create(dto: CreateAgencyDto): Promise<Agency> {
         const { title, active, chainId } = { ...dto };
         const chain: Chain = await this.chainService.getById(chainId);
-        const entity = new Agency(
-            this.uuidService.generateV4(),
-            title,
-            active,
-            chain,
-        );
+        const entity = new Agency(this.uuidService.generateV4(), title, active, chain);
 
         return await this.repo.save(entity);
     }

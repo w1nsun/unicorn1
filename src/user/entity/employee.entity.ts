@@ -1,11 +1,4 @@
-import {
-    Column,
-    CreateDateColumn,
-    Entity,
-    ManyToOne,
-    PrimaryColumn,
-    UpdateDateColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import { Chain } from '../../chain/entity/chain.entity';
 
 @Entity('employees')
@@ -31,13 +24,7 @@ export class Employee {
     @UpdateDateColumn()
     public updatedAt: Date | null;
 
-    constructor(
-        id: string,
-        login: string,
-        password: string,
-        active: boolean,
-        chain: Chain,
-    ) {
+    constructor(id: string, login: string, password: string, active: boolean, chain: Chain) {
         this.id = id;
         this.login = login;
         this.password = password;

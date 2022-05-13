@@ -1,12 +1,4 @@
-import {
-    Body,
-    Controller,
-    Get,
-    Param,
-    ParseUUIDPipe,
-    Post,
-    Put,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Put } from '@nestjs/common';
 import { AbstractEntityController } from '../../core/controller/abstract-entity.controller';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Agency } from '../entity/agency.entity';
@@ -17,12 +9,7 @@ import { AgencyService } from '../service/agency.service';
 
 @ApiTags('Agency')
 @Controller('/agency')
-export class AgencyController extends AbstractEntityController<
-    Agency,
-    AgencyDto,
-    UpdateAgencyDto,
-    CreateAgencyDto
-> {
+export class AgencyController extends AbstractEntityController<Agency, AgencyDto, UpdateAgencyDto, CreateAgencyDto> {
     constructor(agencyService: AgencyService) {
         super(agencyService, function (entity: Agency) {
             return AgencyDto.fromEntity(entity);
@@ -51,10 +38,7 @@ export class AgencyController extends AbstractEntityController<
     @ApiBody({ type: UpdateAgencyDto })
     @ApiResponse({ type: AgencyDto })
     @Put(':id')
-    async update(
-        @Param('id', ParseUUIDPipe) id: string,
-        @Body() dto: UpdateAgencyDto,
-    ): Promise<AgencyDto> {
+    async update(@Param('id', ParseUUIDPipe) id: string, @Body() dto: UpdateAgencyDto): Promise<AgencyDto> {
         return super.update(id, dto);
     }
 }

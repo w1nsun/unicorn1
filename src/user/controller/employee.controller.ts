@@ -28,15 +28,11 @@ export class EmployeeController {
             relations: ['chain'],
         });
 
-        return employees.map((entity: Employee) =>
-            EmployeeDto.fromEntity(entity),
-        );
+        return employees.map((entity: Employee) => EmployeeDto.fromEntity(entity));
     }
 
     @Get(':id')
-    async getEmployee(
-        @Param('id', ParseUUIDPipe) id: string,
-    ): Promise<EmployeeDto> {
+    async getEmployee(@Param('id', ParseUUIDPipe) id: string): Promise<EmployeeDto> {
         try {
             const employee = await this.employeeService.getEmployeeById(id);
             return EmployeeDto.fromEntity(employee);
@@ -59,10 +55,7 @@ export class EmployeeController {
     }
 
     @Put(':id')
-    async updateEmployee(
-        @Param('id', ParseUUIDPipe) id: string,
-        @Body() dto: UpdateEmployeeDto,
-    ): Promise<EmployeeDto> {
+    async updateEmployee(@Param('id', ParseUUIDPipe) id: string, @Body() dto: UpdateEmployeeDto): Promise<EmployeeDto> {
         try {
             const employee = await this.employeeService.update(id, dto);
             return EmployeeDto.fromEntity(employee);

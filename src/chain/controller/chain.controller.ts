@@ -1,12 +1,4 @@
-import {
-    Body,
-    Controller,
-    Get,
-    Param,
-    ParseUUIDPipe,
-    Post,
-    Put,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Put } from '@nestjs/common';
 import { CreateChainDto } from '../dto/create-chain.dto';
 import { UpdateChainDto } from '../dto/update-chain.dto';
 import { AbstractEntityController } from '../../core/controller/abstract-entity.controller';
@@ -17,12 +9,7 @@ import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Chain')
 @Controller('/chain')
-export class ChainController extends AbstractEntityController<
-    Chain,
-    ChainDto,
-    UpdateChainDto,
-    CreateChainDto
-> {
+export class ChainController extends AbstractEntityController<Chain, ChainDto, UpdateChainDto, CreateChainDto> {
     constructor(chainService: ChainService) {
         super(chainService, function (entity: Chain) {
             return ChainDto.fromEntity(entity);
@@ -51,10 +38,7 @@ export class ChainController extends AbstractEntityController<
     @ApiBody({ type: UpdateChainDto })
     @ApiResponse({ type: ChainDto })
     @Put(':id')
-    async update(
-        @Param('id', ParseUUIDPipe) id: string,
-        @Body() dto: UpdateChainDto,
-    ): Promise<ChainDto> {
+    async update(@Param('id', ParseUUIDPipe) id: string, @Body() dto: UpdateChainDto): Promise<ChainDto> {
         return super.update(id, dto);
     }
 }
