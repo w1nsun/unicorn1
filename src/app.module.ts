@@ -16,6 +16,7 @@ import { Agency } from './chain/entity/agency.entity';
             envFilePath: process.env.NODE_ENV
                 ? `.${process.env.NODE_ENV}.env`
                 : '.env',
+            cache: true,
         }),
         TypeOrmModule.forRoot({
             type: 'postgres',

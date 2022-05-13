@@ -5,10 +5,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ChainFixture {
-    constructor(
-        private connection: Connection,
-        private uuidService: UuidService,
-    ) {}
+    constructor(private connection: Connection, private uuidService: UuidService) {}
 
     async load() {
         console.log('__before load');

@@ -8,16 +8,8 @@ import { CreateChainDto } from '../dto/create-chain.dto';
 import { UpdateChainDto } from '../dto/update-chain.dto';
 
 @Injectable()
-export class ChainService extends AbstractEntityService<
-    Chain,
-    CreateChainDto,
-    UpdateChainDto
-> {
-    constructor(
-        connection: Connection,
-        uuidService: UuidService,
-        entityName: EntityTarget<Chain>,
-    ) {
+export class ChainService extends AbstractEntityService<Chain, CreateChainDto, UpdateChainDto> {
+    constructor(connection: Connection, uuidService: UuidService, entityName: EntityTarget<Chain>) {
         super(connection, uuidService, entityName);
     }
 

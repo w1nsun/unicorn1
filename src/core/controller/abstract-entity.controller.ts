@@ -12,18 +12,9 @@ import { AbstractEntityService } from '../service/abstract-entity.service';
 import { DtoFactoryType } from '../type/dto-factory.type';
 import { EntityNotFoundException } from '../exception/entity-not-found.exception';
 
-export abstract class AbstractEntityController<
-    TEntity,
-    TDto,
-    TCreateDto,
-    TUpdateDto,
-> {
+export abstract class AbstractEntityController<TEntity, TDto, TCreateDto, TUpdateDto> {
     protected constructor(
-        protected service: AbstractEntityService<
-            TEntity,
-            TCreateDto,
-            TUpdateDto
-        >,
+        protected service: AbstractEntityService<TEntity, TCreateDto, TUpdateDto>,
         protected dtoFactoryMethod: DtoFactoryType<TEntity, TDto>,
     ) {}
 
@@ -56,10 +47,7 @@ export abstract class AbstractEntityController<
     }
 
     @Put(':id')
-    async update(
-        @Param('id', ParseUUIDPipe) id: string,
-        @Body() dto: TUpdateDto,
-    ): Promise<TDto> {
+    async update(@Param('id', ParseUUIDPipe) id: string, @Body() dto: TUpdateDto): Promise<TDto> {
         try {
             const entity = await this.service.update(id, dto);
             return this.dtoFactoryMethod(entity);

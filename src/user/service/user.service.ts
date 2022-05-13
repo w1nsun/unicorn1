@@ -5,23 +5,24 @@ import { UuidService } from '../../core/service/uuid.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserNotFoundException } from '../exception/user-not-found.exception';
+import * as bcrypt from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UserService {
     constructor(
         private connection: Connection,
         private uuidService: UuidService,
+        private configService: ConfigService,
     ) {}
 
     async createUser(createUser: CreateUserDto): Promise<User> {
         const userRepo = this.connection.getRepository(User);
         const { login, password, active } = { ...createUser };
-        const user = new User(
-            this.uuidService.generateV4(),
-            login,
-            password,
-            active,
-        );
+
+        const hashRounds = this.configService.get<number>('PASSWORD_HASH_ROUNDS') || 2;
+        const hashedPwd = await bcrypt.hash(password, hashRounds);
+        const user = new User(this.uuidService.generateV4(), login, hashedPwd, active);
 
         return await userRepo.save(user);
     }
