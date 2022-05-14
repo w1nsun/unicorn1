@@ -13,9 +13,7 @@ import { Agency } from './chain/entity/agency.entity';
 @Module({
     imports: [
         ConfigModule.forRoot({
-            envFilePath: process.env.NODE_ENV
-                ? `.${process.env.NODE_ENV}.env`
-                : '.env',
+            envFilePath: process.env.NODE_ENV ? `.${process.env.NODE_ENV}.env` : '.env',
             cache: true,
         }),
         TypeOrmModule.forRoot({
@@ -28,13 +26,7 @@ import { Agency } from './chain/entity/agency.entity';
             host: process.env.POSTGRES_HOST,
             entities: [User, Employee, Chain, Agency],
             namingStrategy: new SnakeNamingStrategy(),
-            dropSchema: Boolean(
-                parseInt(
-                    process.env.DB_DROP_SCHEMA !== undefined
-                        ? process.env.DB_DROP_SCHEMA
-                        : '0',
-                ),
-            ),
+            dropSchema: Boolean(parseInt(process.env.DB_DROP_SCHEMA !== undefined ? process.env.DB_DROP_SCHEMA : '0')),
         }),
         CoreModule,
         UserModule,

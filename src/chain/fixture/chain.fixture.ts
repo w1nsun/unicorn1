@@ -2,14 +2,15 @@ import { Connection } from 'typeorm';
 import { UuidService } from '../../core/service/uuid.service';
 import { Chain } from '../entity/chain.entity';
 import { Injectable } from '@nestjs/common';
+import { IFixture } from 'src/core/fixture/ifixture.fixture';
+import { IFixtureDependent } from 'src/core/fixture/idependent.fixture';
 
 @Injectable()
-export class ChainFixture {
+export class ChainFixture implements IFixture, IFixtureDependent {
     constructor(private connection: Connection, private uuidService: UuidService) {}
 
     async load() {
-        console.log('__before load');
-        const res = await this.connection
+        await this.connection
             .createQueryBuilder()
             .insert()
             .into(Chain)
@@ -23,7 +24,9 @@ export class ChainFixture {
                 },
             ])
             .execute();
+    }
 
-        console.log(res);
+    getDependencies(): string[] {
+        return [];
     }
 }

@@ -9,12 +9,11 @@ import { ChainService } from '../chain/service/chain.service';
 import { Connection } from 'typeorm';
 import { UuidService } from '../core/service/uuid.service';
 import { Employee } from './entity/employee.entity';
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
-    imports: [CoreModule, ChainModule],
+    imports: [CoreModule, ChainModule, ConfigModule],
     providers: [
-        ConfigService,
         UserService,
         {
             provide: EmployeeService,
@@ -22,15 +21,11 @@ import { ConfigService } from '@nestjs/config';
                 conn: Connection,
                 uuidService: UuidService,
                 chainService: ChainService,
+                configService: ConfigService,
             ) => {
-                return new EmployeeService(
-                    conn,
-                    uuidService,
-                    Employee,
-                    chainService,
-                );
+                return new EmployeeService(conn, uuidService, Employee, chainService, configService);
             },
-            inject: [Connection, UuidService, ChainService],
+            inject: [Connection, UuidService, ChainService, ConfigService],
         },
     ],
     controllers: [UserController, EmployeeController],
