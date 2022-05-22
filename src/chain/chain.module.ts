@@ -1,5 +1,4 @@
-import { Module } from '@nestjs/common';
-import { CoreModule } from '../core/core.module';
+import { forwardRef, Module } from '@nestjs/common';
 import { ChainService } from './service/chain.service';
 import { ChainController } from './controller/chain.controller';
 import { Connection } from 'typeorm';
@@ -10,9 +9,10 @@ import { ChainExistsValidator } from './validator/chain-exists/chain-exists.vali
 import { AgencyService } from './service/agency.service';
 import { Agency } from './entity/agency.entity';
 import { ChainFixture } from './fixture/chain.fixture';
+import { CoreModule } from '../core/core.module';
 
 @Module({
-    imports: [CoreModule],
+    imports: [forwardRef(() => CoreModule)],
     providers: [
         {
             provide: ChainService,
@@ -23,17 +23,8 @@ import { ChainFixture } from './fixture/chain.fixture';
         },
         {
             provide: AgencyService,
-            useFactory: (
-                conn: Connection,
-                uuidService: UuidService,
-                chainService: ChainService,
-            ) => {
-                return new AgencyService(
-                    conn,
-                    uuidService,
-                    Agency,
-                    chainService,
-                );
+            useFactory: (conn: Connection, uuidService: UuidService, chainService: ChainService) => {
+                return new AgencyService(conn, uuidService, Agency, chainService);
             },
             inject: [Connection, UuidService, ChainService],
         },

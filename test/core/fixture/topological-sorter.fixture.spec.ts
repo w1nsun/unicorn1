@@ -10,9 +10,9 @@ describe('Fixture Topological Sorter', () => {
     beforeEach(() => {
         sorter = new FixtureTopologicalSorter();
 
-        const chainFixtureDep = [ChainFixture];
+        const chainFixtureMock = [ChainFixture];
         chainFixture = {
-            getDependencies: jest.fn().mockImplementation(() => chainFixtureDep),
+            getDependencies: jest.fn().mockImplementation(() => chainFixtureMock),
         };
     });
 

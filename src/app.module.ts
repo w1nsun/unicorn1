@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CoreModule } from './core/core.module';
 import { User } from './user/entity/user.entity';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { ChainModule } from './chain/chain.module';
 import { Employee } from './user/entity/employee.entity';
 import { Chain } from './chain/entity/chain.entity';
 import { Agency } from './chain/entity/agency.entity';
+import { CoreModule } from './core/core.module';
 
 @Module({
     imports: [

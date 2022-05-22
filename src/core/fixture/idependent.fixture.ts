@@ -1,3 +1,3 @@
 export interface IFixtureDependent {
-    getDependencies(): string[];
+    getDependencies();
 }
