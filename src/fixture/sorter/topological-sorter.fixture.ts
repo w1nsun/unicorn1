@@ -1,4 +1,4 @@
-import { RuntimeException } from '../exception/runtime.exception';
+import { RuntimeException } from '../../core/exception/runtime.exception';
 import { Vertex } from './vertex.fixture';
 
 export class FixtureTopologicalSorter {

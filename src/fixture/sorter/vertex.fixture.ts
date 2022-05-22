@@ -1,4 +1,4 @@
-import { IFixtureDependent } from './idependent.fixture';
+import { IFixtureDependent } from '../../fixture/idependent.fixture';
 import { VertexStateType } from './vertex-state.type';
 
 export class Vertex {

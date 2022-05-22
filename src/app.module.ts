@@ -9,6 +9,7 @@ import { Employee } from './user/entity/employee.entity';
 import { Chain } from './chain/entity/chain.entity';
 import { Agency } from './chain/entity/agency.entity';
 import { CoreModule } from './core/core.module';
+import { FixtureModule } from './fixture/fixture.module';
 
 @Module({
     imports: [
@@ -31,6 +32,7 @@ import { CoreModule } from './core/core.module';
         CoreModule,
         UserModule,
         ChainModule,
+        FixtureModule,
     ],
     controllers: [],
     providers: [],

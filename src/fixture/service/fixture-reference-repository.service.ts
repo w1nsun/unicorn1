@@ -1,4 +1,4 @@
-import { OutOfBoundsException } from '../exception/out-of-bounds.exception';
+import { OutOfBoundsException } from '../../core/exception/out-of-bounds.exception';
 
 export class FixtureReferenceRepository {
     private references = [];

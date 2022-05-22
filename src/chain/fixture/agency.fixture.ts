@@ -1,14 +1,14 @@
 import { Connection } from 'typeorm';
 import { UuidService } from '../../core/service/uuid.service';
 import { Injectable } from '@nestjs/common';
-import { IFixtureLoader } from '../../core/fixture/ifixture-loader.fixture';
 import * as moment from 'moment';
 import { Agency } from '../entity/agency.entity';
 import { ChainFixture } from './chain.fixture';
 import { Chain } from '../entity/chain.entity';
+import { IFixture } from '../../fixture/ifixture.fixture';
 
 @Injectable()
-export class AgencyFixture implements IFixtureLoader {
+export class AgencyFixture implements IFixture {
     public static readonly ID_SL_DEMIIVSKA = 'a5a14eb6-e4ff-471e-babc-0d1cab7df93a';
     public static readonly ID_SL_PECHERSK = '4cfb2c51-4a7d-4f0a-a9ff-6c0ca5d3769a';
     public static readonly ID_365_CENTER = '54a6f582-c1d4-4ee7-90c4-c759e7ef2dc9';
@@ -16,7 +16,7 @@ export class AgencyFixture implements IFixtureLoader {
 
     constructor(private connection: Connection, private uuidService: UuidService) {}
 
-    async load(): Promise<any> {
+    async load(): Promise<void> {
         const yesterday: Date = moment().subtract(1, 'day').toDate();
         await this.connection
             .createQueryBuilder()
@@ -25,7 +25,7 @@ export class AgencyFixture implements IFixtureLoader {
             .values([
                 {
                     id: AgencyFixture.ID_SL_DEMIIVSKA,
-                    title: 'Sport Life',
+                    title: 'Sport Life Demiivska',
                     active: true,
                     chain: { id: ChainFixture.ID_SPORT_LIFE } as Chain,
                     createdAt: yesterday,
@@ -33,7 +33,7 @@ export class AgencyFixture implements IFixtureLoader {
                 },
                 {
                     id: AgencyFixture.ID_SL_PECHERSK,
-                    title: '365 Studio',
+                    title: '365 Studio Pechersk',
                     active: true,
                     chain: { id: ChainFixture.ID_SPORT_LIFE } as Chain,
                     createdAt: yesterday,

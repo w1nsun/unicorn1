@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ChainService } from './service/chain.service';
 import { ChainController } from './controller/chain.controller';
 import { Connection } from 'typeorm';
@@ -13,7 +13,7 @@ import { CoreModule } from '../core/core.module';
 import { AgencyFixture } from './fixture/agency.fixture';
 
 @Module({
-    imports: [forwardRef(() => CoreModule)],
+    imports: [CoreModule],
     providers: [
         {
             provide: ChainService,

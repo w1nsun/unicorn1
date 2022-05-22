@@ -2,8 +2,8 @@ import { Connection } from 'typeorm';
 import { UuidService } from '../../core/service/uuid.service';
 import { Chain } from '../entity/chain.entity';
 import { Injectable } from '@nestjs/common';
-import { IFixture } from 'src/core/fixture/ifixture.fixture';
-import { IFixtureDependent } from 'src/core/fixture/idependent.fixture';
+import { IFixture } from 'src/fixture/ifixture.fixture';
+import { IFixtureDependent } from 'src/fixture/idependent.fixture';
 import * as moment from 'moment';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class ChainFixture implements IFixture, IFixtureDependent {
 
     constructor(private connection: Connection, private uuidService: UuidService) {}
 
-    async load(): Promise<any> {
+    async load(): Promise<void> {
         const yesterday: Date = moment().subtract(1, 'day').toDate();
         const res = await this.connection
             .createQueryBuilder()

@@ -1,3 +1,3 @@
 export interface IFixture {
-    load(): void;
+    load(): Promise<void>;
 }

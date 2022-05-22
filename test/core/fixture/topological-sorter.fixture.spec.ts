@@ -1,7 +1,7 @@
 import { ChainFixture } from 'src/chain/fixture/chain.fixture';
-import { IFixtureDependent } from 'src/core/fixture/idependent.fixture';
-import { FixtureTopologicalSorter } from 'src/core/fixture/topological-sorter.fixture';
-import { Vertex } from 'src/core/fixture/vertex.fixture';
+import { IFixtureDependent } from 'src/fixture/idependent.fixture';
+import { FixtureTopologicalSorter } from 'src/fixture/sorter/topological-sorter.fixture';
+import { Vertex } from 'src/fixture/sorter/vertex.fixture';
 
 describe('Fixture Topological Sorter', () => {
     let sorter: FixtureTopologicalSorter;
