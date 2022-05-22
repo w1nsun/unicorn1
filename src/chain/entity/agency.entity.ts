@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import { Chain } from './chain.entity';
 
 @Entity('agencies')
@@ -13,6 +13,7 @@ export class Agency {
     public active: boolean;
 
     @ManyToOne(() => Chain, (chain) => chain.id)
+    @JoinColumn({ name: 'chain_id' })
     chain: Chain;
 
     @CreateDateColumn()

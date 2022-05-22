@@ -10,6 +10,7 @@ import { AgencyService } from './service/agency.service';
 import { Agency } from './entity/agency.entity';
 import { ChainFixture } from './fixture/chain.fixture';
 import { CoreModule } from '../core/core.module';
+import { AgencyFixture } from './fixture/agency.fixture';
 
 @Module({
     imports: [forwardRef(() => CoreModule)],
@@ -30,8 +31,9 @@ import { CoreModule } from '../core/core.module';
         },
         ChainExistsValidator,
         ChainFixture,
+        AgencyFixture,
     ],
     controllers: [ChainController, AgencyController],
-    exports: [ChainService, ChainFixture],
+    exports: [ChainService, ChainFixture, AgencyFixture],
 })
 export class ChainModule {}
