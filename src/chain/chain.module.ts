@@ -10,6 +10,7 @@ import { ChainExistsValidator } from './validator/chain-exists/chain-exists.vali
 import { AgencyService } from './service/agency.service';
 import { Agency } from './entity/agency.entity';
 import { ChainFixture } from './fixture/chain.fixture';
+import { AgencyFixture } from './fixture/agency.fixture';
 
 @Module({
     imports: [CoreModule],
@@ -39,8 +40,9 @@ import { ChainFixture } from './fixture/chain.fixture';
         },
         ChainExistsValidator,
         ChainFixture,
+        AgencyFixture,
     ],
     controllers: [ChainController, AgencyController],
-    exports: [ChainService, ChainFixture],
+    exports: [ChainService, ChainFixture, AgencyFixture],
 })
 export class ChainModule {}
