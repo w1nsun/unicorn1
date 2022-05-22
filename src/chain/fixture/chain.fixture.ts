@@ -15,7 +15,7 @@ export class ChainFixture implements IFixture, IFixtureDependent {
 
     async load(): Promise<any> {
         const yesterday: Date = moment().subtract(1, 'day').toDate();
-        let res = await this.connection
+        const res = await this.connection
             .createQueryBuilder()
             .insert()
             .into(Chain)
