@@ -40,6 +40,12 @@ export class ChainFixture implements IFixture, IFixtureDependent {
         console.log(res);
     }
 
+    async cleanDB(): Promise<void> {
+        const repo = await this.connection.getRepository(Chain);
+        const tableName = await repo.metadata.tableName;
+        await repo.query(`TRUNCATE ${tableName} RESTART IDENTITY CASCADE;`);
+    }
+
     getDependencies(): string[] {
         return [];
     }
