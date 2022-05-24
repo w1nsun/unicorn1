@@ -1,7 +1,8 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import { Chain } from '../../chain/entity/chain.entity';
 
 @Entity('employees')
+@Index('phone_email_chain_uniq', ['phone', 'email', 'chain.id'], { unique: true })
 export class Employee {
     @PrimaryColumn({ type: 'uuid' })
     public readonly id: string;
