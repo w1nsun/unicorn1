@@ -6,10 +6,13 @@ export class User {
     public readonly id: string;
 
     @Column()
-    public login: string;
-
-    @Column()
     public password: string;
+
+    @Column({ nullable: false, length: 32, type: 'varchar' })
+    public phone: string;
+
+    @Column({ nullable: false, length: 128, type: 'varchar' })
+    public email: string;
 
     @Column({ default: true })
     public active: boolean;
@@ -20,10 +23,11 @@ export class User {
     @UpdateDateColumn()
     public updatedAt: Date | null;
 
-    constructor(id: string, login: string, password: string, active: boolean) {
+    constructor(id: string, password: string, phone: string, email: string, active: boolean) {
         this.id = id;
-        this.login = login;
         this.password = password;
+        this.phone = phone;
+        this.email = email;
         this.active = active;
     }
 }

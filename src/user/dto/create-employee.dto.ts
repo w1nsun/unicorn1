@@ -1,10 +1,4 @@
-import {
-    IsBoolean,
-    IsNotEmpty,
-    IsUUID,
-    MaxLength,
-    MinLength,
-} from 'class-validator';
+import { IsBoolean, IsEmail, IsNotEmpty, IsUUID, MaxLength, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { ChainExists } from '../../chain/validator/chain-exists/chain-exists.decorator';
 
@@ -12,8 +6,15 @@ export class CreateEmployeeDto {
     @ApiProperty()
     @IsNotEmpty()
     @MinLength(3)
+    @MaxLength(32)
+    phone: string;
+
+    @ApiProperty()
+    @IsNotEmpty()
+    @MinLength(3)
     @MaxLength(128)
-    login: string;
+    @IsEmail()
+    email: string;
 
     @ApiProperty()
     @IsNotEmpty()

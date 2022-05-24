@@ -9,8 +9,8 @@ import { Chain } from '../../chain/entity/chain.entity';
 import { AbstractEntityService } from '../../core/service/abstract-entity.service';
 import { EntityTarget } from 'typeorm/common/EntityTarget';
 import { ChainService } from '../../chain/service/chain.service';
-import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
+import { PasswordHashGenerator } from './password-hash-generator.service';
 
 @Injectable()
 export class EmployeeService extends AbstractEntityService<Employee, CreateEmployeeDto, UpdateEmployeeDto> {
@@ -20,6 +20,7 @@ export class EmployeeService extends AbstractEntityService<Employee, CreateEmplo
         entityName: EntityTarget<Employee>,
         private chainService: ChainService,
         private configService: ConfigService,
+        private passwordHashGenerator: PasswordHashGenerator,
     ) {
         super(connection, uuidService, entityName);
 
@@ -28,13 +29,12 @@ export class EmployeeService extends AbstractEntityService<Employee, CreateEmplo
 
     async create(dto: CreateEmployeeDto): Promise<Employee> {
         const repo = this.connection.getRepository(Employee);
-        const { login, password, active, chainId } = { ...dto };
+        const { phone, email, password, active, chainId } = { ...dto };
 
-        const hashRounds = this.configService.get<number>('PASSWORD_HASH_ROUNDS') || 2;
-        const hashedPwd = await bcrypt.hash(password, hashRounds);
+        const hashedPwd = await this.passwordHashGenerator.generate(password);
 
         const chain: Chain = await this.chainService.getById(chainId);
-        const entity = new Employee(this.uuidService.generateV4(), login, hashedPwd, active, chain);
+        const entity = new Employee(this.uuidService.generateV4(), hashedPwd, phone, email, active, chain);
 
         return await repo.save(entity);
     }

@@ -10,11 +10,15 @@ import { Connection } from 'typeorm';
 import { UuidService } from '../core/service/uuid.service';
 import { Employee } from './entity/employee.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { PasswordHashGenerator } from './service/password-hash-generator.service';
+import { EmployeeFixture } from './fixture/employee.fixture';
 
 @Module({
     imports: [CoreModule, ChainModule, ConfigModule],
     providers: [
         UserService,
+        PasswordHashGenerator,
+        EmployeeFixture,
         {
             provide: EmployeeService,
             useFactory: (
@@ -22,13 +26,21 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
                 uuidService: UuidService,
                 chainService: ChainService,
                 configService: ConfigService,
+                passwordHashGenerator: PasswordHashGenerator,
             ) => {
-                return new EmployeeService(conn, uuidService, Employee, chainService, configService);
+                return new EmployeeService(
+                    conn,
+                    uuidService,
+                    Employee,
+                    chainService,
+                    configService,
+                    passwordHashGenerator,
+                );
             },
-            inject: [Connection, UuidService, ChainService, ConfigService],
+            inject: [Connection, UuidService, ChainService, ConfigService, PasswordHashGenerator],
         },
     ],
     controllers: [UserController, EmployeeController],
-    exports: [UserService, EmployeeService],
+    exports: [UserService, EmployeeService, PasswordHashGenerator, EmployeeFixture],
 })
 export class UserModule {}

@@ -5,9 +5,6 @@ export class EmployeeDto {
     @ApiProperty({ example: '35726a73-0022-4fc8-baa3-119df50c23d7' })
     id: string;
 
-    @ApiProperty({ example: 'exampleLogin' })
-    login: string;
-
     @ApiProperty()
     active: boolean;
 
@@ -23,7 +20,6 @@ export class EmployeeDto {
     static fromEntity(entity: Employee): EmployeeDto {
         const dto = new this();
         dto.id = entity.id;
-        dto.login = entity.login;
         dto.active = entity.active;
         dto.chainId = entity.chain.id;
         dto.createdAt = entity.createdAt;
