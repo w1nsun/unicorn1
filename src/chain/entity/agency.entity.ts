@@ -1,31 +1,14 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, Entity } from 'typeorm';
 import { Chain } from './chain.entity';
+import { BaseActive } from '../../core/entity/base-active.entity';
 
 @Entity('agencies')
-export class Agency {
-    @PrimaryColumn({ type: 'uuid' })
-    public readonly id: string;
-
+export class Agency extends BaseActive {
     @Column({ nullable: false, length: 128, type: 'varchar' })
     public title: string;
 
-    @Column({ default: true })
-    public active: boolean;
-
-    @ManyToOne(() => Chain, (chain) => chain.id)
-    @JoinColumn({ name: 'chain_id' })
-    chain: Chain;
-
-    @CreateDateColumn()
-    public createdAt: Date;
-
-    @UpdateDateColumn()
-    public updatedAt: Date | null;
-
-    constructor(id: string, title: string, active: boolean, chain: Chain) {
-        this.id = id;
+    constructor(id: string, title: string, chain: Chain) {
+        super(id, chain);
         this.title = title;
-        this.active = active;
-        this.chain = chain;
     }
 }

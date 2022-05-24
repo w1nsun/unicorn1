@@ -10,6 +10,9 @@ import { Chain } from './chain/entity/chain.entity';
 import { Agency } from './chain/entity/agency.entity';
 import { CoreModule } from './core/core.module';
 import { FixtureModule } from './fixture/fixture.module';
+import { Position } from './chain/entity/position.entity';
+import { Service } from './chain/entity/service.entity';
+import { ServiceCategory } from './chain/entity/service-category.entity';
 
 @Module({
     imports: [
@@ -25,7 +28,7 @@ import { FixtureModule } from './fixture/fixture.module';
             database: process.env.POSTGRES_DATABASE,
             synchronize: true,
             host: process.env.POSTGRES_HOST,
-            entities: [User, Employee, Chain, Agency],
+            entities: [User, Employee, Chain, Agency, Position, Service, ServiceCategory],
             namingStrategy: new SnakeNamingStrategy(),
             dropSchema: Boolean(parseInt(process.env.DB_DROP_SCHEMA !== undefined ? process.env.DB_DROP_SCHEMA : '0')),
         }),

@@ -1,11 +1,9 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { Agency } from './agency.entity';
+import { BaseEntity } from '../../core/entity/base-entity.entity';
 
 @Entity('chains')
-export class Chain {
-    @PrimaryColumn({ type: 'uuid' })
-    public readonly id: string;
-
+export class Chain extends BaseEntity {
     @Column({ nullable: false, length: 128, type: 'varchar' })
     public title: string;
 
@@ -15,14 +13,8 @@ export class Chain {
     @OneToMany(() => Agency, (agency) => agency.chain)
     public agencies: Agency[];
 
-    @CreateDateColumn()
-    public createdAt: Date;
-
-    @UpdateDateColumn()
-    public updatedAt: Date | null;
-
     constructor(id: string, title: string, active: boolean) {
-        this.id = id;
+        super(id);
         this.title = title;
         this.active = active;
     }
