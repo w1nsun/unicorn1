@@ -3,13 +3,13 @@ import { UuidService } from '../../core/service/uuid.service';
 import { Injectable } from '@nestjs/common';
 import * as moment from 'moment';
 import { IFixture } from '../../fixture/ifixture.fixture';
-import { Employee } from '../entity/employee.entity';
+import { Employee } from '../entity/employee-auth.entity';
 import { Chain } from '../../chain/entity/chain.entity';
 import { ChainFixture } from '../../chain/fixture/chain.fixture';
 import { faker } from '@faker-js/faker';
 import { ConfigService } from '@nestjs/config';
 import * as _ from 'lodash';
-import { PasswordHashGenerator } from '../service/password-hash-generator.service';
+import { PasswordHashGenerator } from '@root/auth/service/password-hash-generator.service';
 
 @Injectable()
 export class EmployeeFixture implements IFixture {

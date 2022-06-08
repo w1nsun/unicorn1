@@ -10,11 +10,10 @@ import {
     UpdateDateColumn,
 } from 'typeorm';
 import { Chain } from './chain.entity';
-import { Employee } from '../../user/entity/employee.entity';
 import { EmployeePosition } from './employee-position.entity';
 
 @Entity('chain_employees')
-export class ChainEmployee {
+export class Employee {
     @PrimaryColumn({ type: 'uuid' })
     public readonly id: string;
 

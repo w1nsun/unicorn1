@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Employee } from '../entity/employee.entity';
+import { Employee } from '../entity/employee-auth.entity';
 
 export class EmployeeDto {
     @ApiProperty({ example: '35726a73-0022-4fc8-baa3-119df50c23d7' })

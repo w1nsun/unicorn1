@@ -12,7 +12,7 @@ import {
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { EmployeeService } from '../service/employee.service';
 import { EmployeeDto } from '../dto/employee.dto';
-import { Employee } from '../entity/employee.entity';
+import { Employee } from '../entity/employee-auth.entity';
 import { EmployeeNotFoundException } from '../exception/employee-not-found.exception';
 import { CreateEmployeeDto } from '../dto/create-employee.dto';
 import { UpdateEmployeeDto } from '../dto/update-employee.dto';

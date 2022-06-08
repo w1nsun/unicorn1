@@ -6,7 +6,6 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserNotFoundException } from '../exception/user-not-found.exception';
 import { ConfigService } from '@nestjs/config';
-import { PasswordHashGenerator } from './password-hash-generator.service';
 
 @Injectable()
 export class UserService {
@@ -14,14 +13,14 @@ export class UserService {
         private connection: Connection,
         private uuidService: UuidService,
         private configService: ConfigService,
-        private passwordHashGenerator: PasswordHashGenerator,
     ) {}
 
     async createUser(createUser: CreateUserDto): Promise<User> {
         const userRepo = this.connection.getRepository(User);
         const { phone, email, password, active } = { ...createUser };
 
-        const hashedPwd = await this.passwordHashGenerator.generate(password);
+        // const hashedPwd = await this.passwordHashGenerator.generate(password);
+        const hashedPwd = '222';
         const user = new User(this.uuidService.generateV4(), hashedPwd, phone, email, active);
 
         return await userRepo.save(user);

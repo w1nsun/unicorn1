@@ -5,7 +5,6 @@ import { FixtureLoader } from './service/fixture-loader.service';
 import { AgencyFixture } from '../chain/fixture/agency.fixture';
 import { IFixture } from './ifixture.fixture';
 import { Connection } from 'typeorm';
-import { EmployeeFixture } from '../user/fixture/employee.fixture';
 import { UserModule } from '../user/user.module';
 
 @Module({
@@ -15,7 +14,7 @@ import { UserModule } from '../user/user.module';
         {
             provide: FixtureLoader,
             useFactory: (connection: Connection, ...fixtures: IFixture[]) => new FixtureLoader(connection, fixtures),
-            inject: [Connection, ChainFixture, AgencyFixture, EmployeeFixture],
+            inject: [Connection, ChainFixture, AgencyFixture],
         },
     ],
 })

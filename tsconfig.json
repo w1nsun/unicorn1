@@ -20,5 +20,8 @@
     "strictPropertyInitialization": false,
     "skipDefaultLibCheck": true,
     "strictNullChecks": true,
+    "paths": {
+      "@root/*": ["src/*"],
+    }
   }
 }

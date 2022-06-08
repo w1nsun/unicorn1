@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Connection } from 'typeorm';
-import { UuidService } from '../../core/service/uuid.service';
+import { UuidService } from '@root/core/service/uuid.service';
 import { Chain } from '../entity/chain.entity';
-import { AbstractEntityService } from '../../core/service/abstract-entity.service';
+import { AbstractEntityService } from '@root/core/service/abstract-entity.service';
 import { EntityTarget } from 'typeorm/common/EntityTarget';
 import { UpdateChainDto } from '../dto/update-chain.dto';
 import { Agency } from '../entity/agency.entity';
@@ -24,7 +24,7 @@ export class AgencyService extends AbstractEntityService<Agency, CreateAgencyDto
     async create(dto: CreateAgencyDto): Promise<Agency> {
         const { title, active, chainId } = { ...dto };
         const chain: Chain = await this.chainService.getById(chainId);
-        const entity = new Agency(this.uuidService.generateV4(), title, active, chain);
+        const entity = new Agency(this.uuidService.generateV4(), title, chain);
 
         return await this.repo.save(entity);
     }

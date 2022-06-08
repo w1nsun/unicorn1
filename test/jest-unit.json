@@ -1,6 +1,6 @@
 {
   "moduleFileExtensions": ["js", "json", "ts"],
-  "rootDir": "./../",
+  "rootDir": ".",
   "testEnvironment": "node",
   "testRegex": ".*\\.spec\\.ts$",
   "transform": {
@@ -10,5 +10,8 @@
     "**/*.(t|j)s"
   ],
   "coverageDirectory": "../coverage",
-  "modulePaths": ["<rootDir>"]
+  "modulePaths": ["<rootDir>"],
+  "moduleNameMapper": {
+    "^@root/(.*)$": "<rootDir>/../src/$1"
+  }
 }

@@ -29,9 +29,7 @@ export abstract class AbstractEntityService<Entity, CreateDto, UpdateDto> {
         });
 
         if (!entity) {
-            throw new EntityNotFoundException(
-                `${this.entityName} ${id} not found`,
-            );
+            throw new EntityNotFoundException(`${this.entityName} ${id} not found`);
         }
 
         return entity;
