@@ -1,18 +1,11 @@
 import { Module } from '@nestjs/common';
-import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './user/entity/user.entity';
-import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { ChainModule } from './chain/chain.module';
-import { Employee } from './user/entity/employee-auth.entity';
-import { Chain } from './chain/entity/chain.entity';
-import { Agency } from './chain/entity/agency.entity';
-import { CoreModule } from './core/core.module';
-import { FixtureModule } from './fixture/fixture.module';
-import { Service } from './chain/entity/service.entity';
-import { ServiceCategory } from './chain/entity/service-category.entity';
-import { AuthModule } from '@root/auth/auth.module';
+import { CoreModule } from '@core/core.module';
+import { AuthModule } from '@auth/auth.module';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { Auth } from '@auth/domain/entity/auth.entity';
+import { Role } from '@auth/domain/entity/role.entity';
+import { Login } from '@auth/domain/entity/login.entity';
 
 @Module({
     imports: [
@@ -20,23 +13,43 @@ import { AuthModule } from '@root/auth/auth.module';
             envFilePath: process.env.NODE_ENV ? `.${process.env.NODE_ENV}.env` : '.env',
             cache: true,
         }),
-        TypeOrmModule.forRoot({
-            type: 'postgres',
-            port: Number(process.env.POSTGRES_PORT),
-            username: process.env.POSTGRES_USER,
-            password: process.env.POSTGRES_PASSWORD,
-            database: process.env.POSTGRES_DATABASE,
-            synchronize: true,
-            host: process.env.POSTGRES_HOST,
-            entities: [User, Employee, Chain, Agency, Service, ServiceCategory],
-            namingStrategy: new SnakeNamingStrategy(),
-            dropSchema: Boolean(parseInt(process.env.DB_DROP_SCHEMA !== undefined ? process.env.DB_DROP_SCHEMA : '0')),
+        MikroOrmModule.forRoot({
+            type: 'mongo',
+            // port: Number(process.env.POSTGRES_PORT),
+            // username: process.env.POSTGRES_USER,
+            // user: process.env.MONGODB_USER,
+            // password: process.env.MONGODB_PASSWORD,
+            dbName: process.env.MONGODB_DATABASE,
+            // host: process.env.POSTGRES_HOST,
+            // clientUrl: `mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/${process.env.MONGODB_DATABASE}`,
+            // clientUrl: `mongodb://localhost:27017`,
+            clientUrl: `mongodb://root:example@localhost:27017`,
+            // useNewUrlParser: true,
+            // synchronize: true,
+            // useUnifiedTopology: true,
+            // logging: true,
+            // ssl: true,
+            entities: [Auth, Role, Login],
         }),
+        // TypeOrmModule.forRoot({
+        //     type: 'mongodb',
+        //     port: Number(process.env.MONGODB_PORT),
+        //     username: process.env.MONGODB_USER,
+        //     password: process.env.MONGODB_PASSWORD,
+        //     database: process.env.MONGODB_DATABASE,
+        //     host: process.env.MONGODB_HOST,
+        //     entities: [],
+        //     useNewUrlParser: true,
+        //     synchronize: true,
+        //     useUnifiedTopology: true,
+        //     logging: true,
+        //     ssl: true,
+        // }),
         CoreModule,
-        UserModule,
-        ChainModule,
+        // UserModule,
+        // ChainModule,
         AuthModule,
-        FixtureModule,
+        // FixtureModule,
     ],
     controllers: [],
     providers: [],

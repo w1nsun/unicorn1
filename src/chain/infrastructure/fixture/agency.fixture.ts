@@ -1,11 +1,11 @@
 import { Connection } from 'typeorm';
-import { UuidService } from '../../core/service/uuid.service';
+import { IdGeneratorService } from '@core/service/id-generator.service';
 import { Injectable } from '@nestjs/common';
 import * as moment from 'moment';
-import { Agency } from '../entity/agency.entity';
+import { Agency } from '../../domain/entity/agency.entity';
 import { ChainFixture } from './chain.fixture';
-import { Chain } from '../entity/chain.entity';
-import { IFixture } from '../../fixture/ifixture.fixture';
+import { Chain } from '../../domain/entity/chain.entity';
+import { IFixture } from '../../../fixture/ifixture.fixture';
 
 @Injectable()
 export class AgencyFixture implements IFixture {
@@ -15,7 +15,7 @@ export class AgencyFixture implements IFixture {
     public static readonly ID_365_CENTER = '54a6f582-c1d4-4ee7-90c4-c759e7ef2dc9';
     public static readonly ID_365_LUKIANIVSKA = '8bc0d0d8-1474-41ae-a471-888a04461186';
 
-    constructor(private connection: Connection, private uuidService: UuidService) {}
+    constructor(private connection: Connection, private uuidService: IdGeneratorService) {}
 
     async load(): Promise<void> {
         const yesterday: Date = moment().subtract(1, 'day').toDate();

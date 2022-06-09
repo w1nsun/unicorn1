@@ -5,9 +5,9 @@ import { CoreModule } from '../core/core.module';
 import { EmployeeService } from './service/employee.service';
 import { EmployeeController } from './controller/employee.controller';
 import { ChainModule } from '../chain/chain.module';
-import { ChainService } from '../chain/service/chain.service';
+import { ChainService } from '../chain/application/service/chain.service';
 import { Connection } from 'typeorm';
-import { UuidService } from '../core/service/uuid.service';
+import { IdGeneratorService } from '@core/service/id-generator.service';
 import { Employee } from './entity/employee-auth.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
@@ -19,13 +19,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             provide: EmployeeService,
             useFactory: (
                 conn: Connection,
-                uuidService: UuidService,
+                uuidService: IdGeneratorService,
                 chainService: ChainService,
                 configService: ConfigService,
             ) => {
                 return new EmployeeService(conn, uuidService, Employee, chainService, configService);
             },
-            inject: [Connection, UuidService, ChainService, ConfigService],
+            inject: [Connection, IdGeneratorService, ChainService, ConfigService],
         },
     ],
     controllers: [UserController, EmployeeController],

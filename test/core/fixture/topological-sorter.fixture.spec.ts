@@ -1,4 +1,4 @@
-import { ChainFixture } from 'src/chain/fixture/chain.fixture';
+import { ChainFixture } from 'src/chain/infrastructure/fixture/chain.fixture';
 import { IFixtureDependent } from 'src/fixture/idependent.fixture';
 import { FixtureTopologicalSorter } from 'src/fixture/sorter/topological-sorter.fixture';
 import { Vertex } from 'src/fixture/sorter/vertex.fixture';

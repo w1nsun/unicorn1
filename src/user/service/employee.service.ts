@@ -1,21 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { Connection } from 'typeorm';
-import { UuidService } from '../../core/service/uuid.service';
+import { IdGeneratorService } from '@core/service/id-generator.service';
 import { CreateEmployeeDto } from '../dto/create-employee.dto';
 import { Employee } from '../entity/employee-auth.entity';
 import { UpdateEmployeeDto } from '../dto/update-employee.dto';
 import { EmployeeNotFoundException } from '../exception/employee-not-found.exception';
-import { Chain } from '../../chain/entity/chain.entity';
+import { Chain } from '../../chain/domain/entity/chain.entity';
 import { AbstractEntityService } from '../../core/service/abstract-entity.service';
 import { EntityTarget } from 'typeorm/common/EntityTarget';
-import { ChainService } from '../../chain/service/chain.service';
+import { ChainService } from '../../chain/application/service/chain.service';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class EmployeeService extends AbstractEntityService<Employee, CreateEmployeeDto, UpdateEmployeeDto> {
     constructor(
         connection: Connection,
-        uuidService: UuidService,
+        uuidService: IdGeneratorService,
         entityName: EntityTarget<Employee>,
         private chainService: ChainService,
         private configService: ConfigService,
@@ -33,7 +33,7 @@ export class EmployeeService extends AbstractEntityService<Employee, CreateEmplo
         const hashedPwd = 'ssss';
 
         const chain: Chain = await this.chainService.getById(chainId);
-        const entity = new Employee(this.uuidService.generateV4(), hashedPwd, phone, email, active, chain);
+        const entity = new Employee(this.uuidService.generateUuidV4(), hashedPwd, phone, email, active, chain);
 
         return await repo.save(entity);
     }
@@ -50,7 +50,7 @@ export class EmployeeService extends AbstractEntityService<Employee, CreateEmplo
 
     async getEmployeeById(id: string): Promise<Employee> {
         const repo = this.connection.getRepository(Employee);
-        const entity: Employee | undefined = await repo.findOne({
+        const entity: Employee | null = await repo.findOne({
             where: { id },
         });
 

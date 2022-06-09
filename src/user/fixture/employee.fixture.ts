@@ -1,21 +1,21 @@
 import { Connection } from 'typeorm';
-import { UuidService } from '../../core/service/uuid.service';
+import { IdGeneratorService } from '@core/service/id-generator.service';
 import { Injectable } from '@nestjs/common';
 import * as moment from 'moment';
 import { IFixture } from '../../fixture/ifixture.fixture';
 import { Employee } from '../entity/employee-auth.entity';
-import { Chain } from '../../chain/entity/chain.entity';
-import { ChainFixture } from '../../chain/fixture/chain.fixture';
+import { Chain } from '../../chain/domain/entity/chain.entity';
+import { ChainFixture } from '../../chain/infrastructure/fixture/chain.fixture';
 import { faker } from '@faker-js/faker';
 import { ConfigService } from '@nestjs/config';
 import * as _ from 'lodash';
-import { PasswordHashGenerator } from '@root/auth/service/password-hash-generator.service';
+import { PasswordHashGenerator } from '@root/auth/application/service/password-hash-generator.service';
 
 @Injectable()
 export class EmployeeFixture implements IFixture {
     constructor(
         private connection: Connection,
-        private uuidService: UuidService,
+        private uuidService: IdGeneratorService,
         private configService: ConfigService,
         private passwordHashGenerator: PasswordHashGenerator,
     ) {}
@@ -31,7 +31,7 @@ export class EmployeeFixture implements IFixture {
                 const chainId = _.sample([ChainFixture.ID_SPORT_LIFE, ChainFixture.ID_365_STUDIO]);
 
                 employees.push({
-                    id: this.uuidService.generateV4(),
+                    id: this.uuidService.generateUuidV4(),
                     phone: faker.phone.phoneNumber('38##########'),
                     email: faker.internet.exampleEmail(),
                     password: hashedPwd,

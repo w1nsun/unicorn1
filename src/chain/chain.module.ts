@@ -1,33 +1,33 @@
 import { Module } from '@nestjs/common';
-import { ChainService } from './service/chain.service';
-import { ChainController } from './controller/chain.controller';
+import { ChainService } from './application/service/chain.service';
+import { ChainController } from './ui/controller/chain.controller';
 import { Connection } from 'typeorm';
-import { UuidService } from '../core/service/uuid.service';
-import { Chain } from './entity/chain.entity';
-import { AgencyController } from './controller/agency.controller';
-import { ChainExistsValidator } from './validator/chain-exists/chain-exists.validator';
-import { AgencyService } from './service/agency.service';
-import { Agency } from './entity/agency.entity';
-import { ChainFixture } from './fixture/chain.fixture';
+import { IdGeneratorService } from '@core/service/id-generator.service';
+import { Chain } from './domain/entity/chain.entity';
+import { AgencyController } from './ui/controller/agency.controller';
+import { ChainExistsValidator } from './application/validator/chain-exists/chain-exists.validator';
+import { AgencyService } from './application/service/agency.service';
+import { Agency } from './domain/entity/agency.entity';
+import { ChainFixture } from './infrastructure/fixture/chain.fixture';
 import { CoreModule } from '../core/core.module';
-import { AgencyFixture } from './fixture/agency.fixture';
+import { AgencyFixture } from './infrastructure/fixture/agency.fixture';
 
 @Module({
     imports: [CoreModule],
     providers: [
         {
             provide: ChainService,
-            useFactory: (conn: Connection, uuidService: UuidService) => {
+            useFactory: (conn: Connection, uuidService: IdGeneratorService) => {
                 return new ChainService(conn, uuidService, Chain);
             },
-            inject: [Connection, UuidService],
+            inject: [Connection, IdGeneratorService],
         },
         {
             provide: AgencyService,
-            useFactory: (conn: Connection, uuidService: UuidService, chainService: ChainService) => {
+            useFactory: (conn: Connection, uuidService: IdGeneratorService, chainService: ChainService) => {
                 return new AgencyService(conn, uuidService, Agency, chainService);
             },
-            inject: [Connection, UuidService, ChainService],
+            inject: [Connection, IdGeneratorService, ChainService],
         },
         ChainExistsValidator,
         ChainFixture,

@@ -1,8 +1,8 @@
 import { ChainModule } from '../chain/chain.module';
 import { Module } from '@nestjs/common';
-import { ChainFixture } from '../chain/fixture/chain.fixture';
+import { ChainFixture } from '../chain/infrastructure/fixture/chain.fixture';
 import { FixtureLoader } from './service/fixture-loader.service';
-import { AgencyFixture } from '../chain/fixture/agency.fixture';
+import { AgencyFixture } from '../chain/infrastructure/fixture/agency.fixture';
 import { IFixture } from './ifixture.fixture';
 import { Connection } from 'typeorm';
 import { UserModule } from '../user/user.module';

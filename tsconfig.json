@@ -21,6 +21,8 @@
     "skipDefaultLibCheck": true,
     "strictNullChecks": true,
     "paths": {
+      "@auth/*": ["src/auth/*"],
+      "@core/*": ["src/core/*"],
       "@root/*": ["src/*"],
     }
   }

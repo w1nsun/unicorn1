@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Put } from '@nestjs/common';
-import { CreateChainDto } from '../dto/create-chain.dto';
-import { UpdateChainDto } from '../dto/update-chain.dto';
-import { AbstractEntityController } from '../../core/controller/abstract-entity.controller';
-import { ChainService } from '../service/chain.service';
-import { Chain } from '../entity/chain.entity';
-import { ChainDto } from '../dto/chain.dto';
+import { CreateChainDto } from '../../application/dto/create-chain.dto';
+import { UpdateChainDto } from '../../application/dto/update-chain.dto';
+import { AbstractEntityController } from '@core/controller/abstract-entity.controller';
+import { ChainService } from '../../application/service/chain.service';
+import { Chain } from '../../domain/entity/chain.entity';
+import { ChainDto } from '../../application/dto/chain.dto';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Chain')

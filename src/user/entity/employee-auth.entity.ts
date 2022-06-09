@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
-import { Chain } from '../../chain/entity/chain.entity';
+import { Chain } from '../../chain/domain/entity/chain.entity';
 
 @Entity('employees')
 @Index('phone_email_chain_uniq', ['phone', 'email', 'chain.id'], { unique: true })

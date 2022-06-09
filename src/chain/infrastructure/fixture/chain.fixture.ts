@@ -1,9 +1,9 @@
 import { Connection } from 'typeorm';
-import { UuidService } from '../../core/service/uuid.service';
-import { Chain } from '../entity/chain.entity';
+import { IdGeneratorService } from '@core/service/id-generator.service';
+import { Chain } from '../../domain/entity/chain.entity';
 import { Injectable } from '@nestjs/common';
-import { IFixture } from 'src/fixture/ifixture.fixture';
-import { IFixtureDependent } from 'src/fixture/idependent.fixture';
+import { IFixture } from '@root/fixture/ifixture.fixture';
+import { IFixtureDependent } from '@root/fixture/idependent.fixture';
 import * as moment from 'moment';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class ChainFixture implements IFixture, IFixtureDependent {
     public static readonly ID_SPORT_LIFE = 'e72bb753-65f9-45ae-951d-c8aa11309362';
     public static readonly ID_365_STUDIO = '99a647d2-b6ef-4f48-8d4d-b10355897cdc';
 
-    constructor(private connection: Connection, private uuidService: UuidService) {}
+    constructor(private connection: Connection, private uuidService: IdGeneratorService) {}
 
     async load(): Promise<void> {
         const yesterday: Date = moment().subtract(1, 'day').toDate();

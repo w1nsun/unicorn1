@@ -1,5 +1,5 @@
-import { ChainFixture } from '@root/chain/fixture/chain.fixture';
-import { PasswordHashGenerator } from '@root/auth/service/password-hash-generator.service';
+import { ChainFixture } from '@root/chain/infrastructure/fixture/chain.fixture';
+import { PasswordHashGenerator } from '@root/auth/application/service/password-hash-generator.service';
 
 describe('Password hash generator', () => {
     let pwdHashGenerator: PasswordHashGenerator;

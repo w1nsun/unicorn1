@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Chain } from './chain.entity';
-import { BaseEntity } from '@root/core/entity/base-entity.entity';
+import { BaseEntity } from '@core/entity/base-entity.entity';
 
 @Entity('agencies')
 export class Agency extends BaseEntity {

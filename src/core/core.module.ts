@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { UuidService } from './service/uuid.service';
+import { IdGeneratorService } from './service/id-generator.service';
 
 @Module({
-    exports: [UuidService],
+    exports: [IdGeneratorService],
     imports: [],
-    providers: [UuidService],
+    providers: [IdGeneratorService],
 })
 export class CoreModule {}

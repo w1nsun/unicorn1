@@ -1,6 +1,6 @@
 import { IsBoolean, IsEmail, IsNotEmpty, IsUUID, MaxLength, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { ChainExists } from '../../chain/validator/chain-exists/chain-exists.decorator';
+import { ChainExists } from '../../chain/application/validator/chain-exists/chain-exists.decorator';
 
 export class CreateEmployeeDto {
     @ApiProperty()

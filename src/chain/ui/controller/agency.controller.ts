@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Put } from '@nestjs/common';
-import { AbstractEntityController } from '../../core/controller/abstract-entity.controller';
+import { AbstractEntityController } from '@core/controller/abstract-entity.controller';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Agency } from '../entity/agency.entity';
-import { AgencyDto } from '../dto/agency.dto';
-import { UpdateAgencyDto } from '../dto/update-agency.dto';
-import { CreateAgencyDto } from '../dto/create-agency.dto';
-import { AgencyService } from '../service/agency.service';
+import { Agency } from '../../domain/entity/agency.entity';
+import { AgencyDto } from '../../application/dto/agency.dto';
+import { UpdateAgencyDto } from '../../application/dto/update-agency.dto';
+import { CreateAgencyDto } from '../../application/dto/create-agency.dto';
+import { AgencyService } from '../../application/service/agency.service';
 
 @ApiTags('Agency')
 @Controller('/agency')

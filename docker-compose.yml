@@ -10,31 +10,29 @@ services:
 #    ports:
 #      - 3306:3306
 
-  postgres:
-    container_name: unicorn1-postgres
-    image: postgres:13.1
-    ports:
-      - 5432:5432
-    volumes:
-      - ./postgres/data:/var/lib/postgresql/data
-    environment:
-      - PGDATA=/var/lib/postgresql/data/pgdata
-      - POSTGRES_DB=unicorn1
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=mysecretpassword
-
-#  mongo:
-#    image: mongo:4.4
-#    container_name: unicorn1-mongo
-#    environment:
-#      - MONGO_INITDB_ROOT_USERNAME=admin
-#      - MONGO_INITDB_ROOT_PASSWORD=admin
+#  postgres:
+#    container_name: unicorn1-postgres
+#    image: postgres:13.1
 #    ports:
-#      - 27017:27017
+#      - 5432:5432
 #    volumes:
-#      - ./mongo-data-4.4:/data/db
+#      - ./postgres/data:/var/lib/postgresql/data
+#    environment:
+#      - PGDATA=/var/lib/postgresql/data/pgdata
+#      - POSTGRES_DB=unicorn1
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=mysecretpassword
 
-  adminer:
-    image: adminer
+  mongo:
+    image: mongo:5
+    container_name: unicorn1-mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
     ports:
-      - 8080:8080
+      - "27017:27017"
+
+#  adminer:
+#    image: adminer
+#    ports:
+#      - 8080:8080
