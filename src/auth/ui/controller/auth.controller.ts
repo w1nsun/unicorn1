@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from '@auth/application/service/auth.service';
 import { CreateAuthDto } from '@auth/application/dto/create-auth.dto';
@@ -7,19 +7,21 @@ import { AuthDto } from '@auth/application/dto/auth.dto';
 @ApiTags('Agency')
 @Controller('/auth')
 export class AuthController {
-    constructor(private authService: AuthService) {}
+    constructor(private readonly authService: AuthService) {}
 
     // @ApiResponse({ type: [AgencyDto] })
     // @Get()
     // async getAll(): Promise<AgencyDto[]> {
     //     return super.getAll();
     // }
-    //
-    // @ApiResponse({ type: [AgencyDto] })
-    // @Get(':id')
-    // async getById(@Param('id', ParseUUIDPipe) id: string): Promise<AgencyDto> {
-    //     return super.getById(id);
-    // }
+
+    @ApiResponse({ type: [AuthDto] })
+    @Get(':id')
+    async getById(@Param('id') id: string): Promise<AuthDto> {
+        const auth = await this.authService.getById(id);
+
+        return AuthDto.fromEntity(auth);
+    }
 
     @ApiBody({ type: CreateAuthDto })
     @ApiResponse({ type: AuthDto })

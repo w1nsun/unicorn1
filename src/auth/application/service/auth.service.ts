@@ -4,13 +4,16 @@ import { Auth } from '@auth/domain/entity/auth.entity';
 import { CreateAuthDto } from '@auth/application/dto/create-auth.dto';
 import { PasswordHashGenerator } from '@auth/application/service/password-hash-generator.service';
 import { EntityManager } from '@mikro-orm/mongodb';
+import { AuthRepository } from '@auth/domain/repository/auth.repository';
+import { InjectRepository } from '@mikro-orm/nestjs';
 
 @Injectable()
 export class AuthService {
     constructor(
-        private em: EntityManager,
-        private idGeneratorService: IdGeneratorService,
-        private passwordHashGenerator: PasswordHashGenerator,
+        private readonly em: EntityManager,
+        private readonly idGeneratorService: IdGeneratorService,
+        private readonly passwordHashGenerator: PasswordHashGenerator,
+        @InjectRepository(Auth) private readonly authRepo: AuthRepository,
     ) {}
 
     async create(dto: CreateAuthDto): Promise<Auth> {
@@ -22,5 +25,14 @@ export class AuthService {
         await repo.persistAndFlush(auth);
 
         return auth;
+    }
+
+    async getById(id: string) {
+        const auth = await this.authRepo.findById(id);
+        if (auth) {
+            return auth;
+        }
+
+        throw new Error('not Found');
     }
 }
