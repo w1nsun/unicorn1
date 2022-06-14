@@ -3,9 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import { CoreModule } from '@core/core.module';
 import { AuthModule } from '@auth/auth.module';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { Auth } from '@auth/domain/entity/auth.entity';
-import { Role } from '@auth/domain/entity/role.entity';
-import { Login } from '@auth/domain/entity/login.entity';
 
 @Module({
     imports: [
@@ -29,7 +26,7 @@ import { Login } from '@auth/domain/entity/login.entity';
             // useUnifiedTopology: true,
             // logging: true,
             // ssl: true,
-            entities: [Auth, Role, Login],
+            entities: [],
         }),
         // TypeOrmModule.forRoot({
         //     type: 'mongodb',

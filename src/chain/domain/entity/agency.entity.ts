@@ -1,20 +1,24 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { Chain } from './chain.entity';
-import { BaseEntity } from '@core/entity/base-entity.entity';
+import { Entity, EntityRepositoryType, Property } from '@mikro-orm/core';
+import { BaseEntity } from '@core/domain/entity/base.entity';
+import { ObjectId } from '@mikro-orm/mongodb';
+import { AgencyMikroRepository } from '@root/chain/infrastructure/repository/agency.mikro.repository';
+import { Chain } from '@root/chain/domain/entity/chain.entity';
 
-@Entity('agencies')
+@Entity({ tableName: 'chain_agency', customRepository: () => AgencyMikroRepository })
 export class Agency extends BaseEntity {
-    @Column({ nullable: false, length: 128, type: 'varchar' })
+    @Property({ nullable: false })
     public title: string;
 
-    @Column({ default: true })
+    @Property({ default: true })
     public active: boolean;
 
-    @ManyToOne(() => Chain, (chain) => chain.id)
-    @JoinColumn({ name: 'chain_id' })
+    // @ManyToOne(() => Chain, (chain) => chain.id)
+    // @JoinColumn({ name: 'chain_id' })
     public chain: Chain;
 
-    constructor(id: string, title: string, chain: Chain) {
+    [EntityRepositoryType]?: AgencyMikroRepository;
+
+    constructor(id: ObjectId, title: string, chain: Chain) {
         super(id);
         this.title = title;
         this.active = true;

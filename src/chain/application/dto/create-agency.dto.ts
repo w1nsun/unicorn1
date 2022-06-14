@@ -1,10 +1,4 @@
-import {
-    IsBoolean,
-    IsNotEmpty,
-    IsUUID,
-    MaxLength,
-    MinLength,
-} from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsUUID, MaxLength, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { ChainExists } from '../validator/chain-exists/chain-exists.decorator';
 

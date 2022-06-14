@@ -1,19 +1,22 @@
-import { Column, Entity, OneToMany } from 'typeorm';
-import { Agency } from './agency.entity';
-import { BaseEntity } from '@core/entity/base-entity.entity';
+import { Entity, EntityRepositoryType, Property } from '@mikro-orm/core';
+import { ChainMikroRepository } from '@root/chain/infrastructure/repository/chain.mikro.repository';
+import { ObjectId } from '@mikro-orm/mongodb';
+import { BaseEntity } from '@core/domain/entity/base.entity';
 
-@Entity('chains')
+@Entity({ tableName: 'chain_chain', customRepository: () => ChainMikroRepository })
 export class Chain extends BaseEntity {
-    @Column({ nullable: false, length: 128, type: 'varchar' })
+    @Property({ nullable: false })
     public title: string;
 
-    @Column({ default: true })
+    @Property({ default: true })
     public active: boolean;
 
-    @OneToMany(() => Agency, (agency) => agency.chain)
-    public agencies: Agency[];
+    // @OneToMany(() => Agency, (agency) => agency.chain)
+    // public agencies: Agency[];
 
-    constructor(id: string, title: string, active: boolean) {
+    [EntityRepositoryType]?: ChainMikroRepository;
+
+    constructor(id: ObjectId, title: string, active: boolean) {
         super(id);
         this.title = title;
         this.active = active;

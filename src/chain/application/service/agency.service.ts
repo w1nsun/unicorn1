@@ -1,41 +1,42 @@
-import { Injectable } from '@nestjs/common';
-import { Connection } from 'typeorm';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { IdGeneratorService } from '@core/service/id-generator.service';
-import { Chain } from '../../domain/entity/chain.entity';
-import { AbstractEntityService } from '@core/service/abstract-entity.service';
-import { EntityTarget } from 'typeorm/common/EntityTarget';
-import { UpdateChainDto } from '../dto/update-chain.dto';
 import { Agency } from '../../domain/entity/agency.entity';
 import { CreateAgencyDto } from '../dto/create-agency.dto';
-import { UpdateAgencyDto } from '../dto/update-agency.dto';
-import { ChainService } from './chain.service';
+import { PasswordHashGenerator } from '@auth/application/service/password-hash-generator.service';
+import { InjectRepository } from '@mikro-orm/nestjs';
+import { UpdateAgencyDto } from '@root/chain/application/dto/update-agency.dto';
+import { AgencyRepository } from '@root/chain/domain/repository/agency.repository';
+import { ChainService } from '@root/chain/application/service/chain.service';
 
 @Injectable()
-export class AgencyService extends AbstractEntityService<Agency, CreateAgencyDto, UpdateAgencyDto> {
+export class AgencyService {
     constructor(
-        connection: Connection,
-        uuidService: IdGeneratorService,
-        entityName: EntityTarget<Agency>,
-        private chainService: ChainService,
-    ) {
-        super(connection, uuidService, entityName);
-    }
+        private readonly idGeneratorService: IdGeneratorService,
+        private readonly passwordHashGenerator: PasswordHashGenerator,
+        private readonly chainService: ChainService,
+        @InjectRepository(Agency) private readonly agencyRepo: AgencyRepository,
+    ) {}
 
     async create(dto: CreateAgencyDto): Promise<Agency> {
         const { title, active, chainId } = { ...dto };
-        const chain: Chain = await this.chainService.getById(chainId);
-        const entity = new Agency(this.uuidService.generateUuidV4(), title, chain);
+        const chain = await this.chainService.findById(chainId);
+        if (!chain) {
+            throw new HttpException('Chain not found', HttpStatus.NOT_FOUND);
+        }
+        const agency = new Agency(this.idGeneratorService.generateMongoId(), title, chain);
+        await this.agencyRepo.save(agency);
 
-        return await this.repo.save(entity);
+        return agency;
     }
 
-    async update(id: string, dto: UpdateChainDto): Promise<Agency> {
-        const repo = this.connection.getRepository(Chain);
-        const entity: Agency = await this.getById(id);
+    async update(id: string, dto: UpdateAgencyDto): Promise<Agency> {
+        const agency = await this.agencyRepo.findById(id);
+        if (!agency) {
+            throw new HttpException('Agency not found', HttpStatus.NOT_FOUND);
+        }
+        agency.active = dto.active;
+        await this.agencyRepo.save(agency);
 
-        entity.active = dto.active;
-        await repo.save(entity);
-
-        return entity;
+        return agency;
     }
 }

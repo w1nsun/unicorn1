@@ -6,11 +6,13 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthController } from '@auth/ui/controller/auth.controller';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Auth } from '@auth/domain/entity/auth.entity';
+import { Role } from '@auth/domain/entity/role.entity';
+import { Login } from '@auth/domain/entity/login.entity';
 
 // example with Symbol https://stackoverflow.com/questions/52969037/nestjs-dependency-injection-and-ddd-clean-architecture
 
 @Module({
-    imports: [MikroOrmModule.forFeature({ entities: [Auth] }), CoreModule, ConfigModule],
+    imports: [MikroOrmModule.forFeature({ entities: [Auth, Role, Login] }), CoreModule, ConfigModule],
     providers: [AuthService, PasswordHashGenerator],
     controllers: [AuthController],
     exports: [AuthService, PasswordHashGenerator],

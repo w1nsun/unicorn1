@@ -1,24 +1,16 @@
-import {
-    ValidationArguments,
-    ValidatorConstraint,
-    ValidatorConstraintInterface,
-} from 'class-validator';
+import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
 import { Injectable } from '@nestjs/common';
 import { ChainService } from '../../service/chain.service';
 
 @ValidatorConstraint({ name: 'ChainExistsValidator', async: true })
 @Injectable()
 export class ChainExistsValidator implements ValidatorConstraintInterface {
-    constructor(private chainService: ChainService) {}
+    constructor(private readonly chainService: ChainService) {}
 
     async validate(value: string) {
-        try {
-            await this.chainService.getById(value);
-        } catch (e) {
-            return false;
-        }
+        const chain = await this.chainService.findById(value);
 
-        return true;
+        return !!chain;
     }
 
     defaultMessage(args: ValidationArguments) {

@@ -1,32 +1,42 @@
-import { Injectable } from '@nestjs/common';
-import { Connection } from 'typeorm';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { IdGeneratorService } from '@core/service/id-generator.service';
 import { Chain } from '../../domain/entity/chain.entity';
-import { AbstractEntityService } from '@core/service/abstract-entity.service';
-import { EntityTarget } from 'typeorm/common/EntityTarget';
 import { CreateChainDto } from '../dto/create-chain.dto';
 import { UpdateChainDto } from '../dto/update-chain.dto';
+import { PasswordHashGenerator } from '@auth/application/service/password-hash-generator.service';
+import { InjectRepository } from '@mikro-orm/nestjs';
+import { ChainRepository } from '@root/chain/domain/repository/chain.repository';
 
 @Injectable()
-export class ChainService extends AbstractEntityService<Chain, CreateChainDto, UpdateChainDto> {
-    constructor(connection: Connection, uuidService: IdGeneratorService, entityName: EntityTarget<Chain>) {
-        super(connection, uuidService, entityName);
-    }
+export class ChainService {
+    constructor(
+        private readonly idGeneratorService: IdGeneratorService,
+        private readonly passwordHashGenerator: PasswordHashGenerator,
+        @InjectRepository(Chain) private readonly chainRepo: ChainRepository,
+    ) {}
 
     async create(dto: CreateChainDto): Promise<Chain> {
         const { title, active } = { ...dto };
-        const entity = new Chain(this.uuidService.generateUuidV4(), title, active);
+        const chain = new Chain(this.idGeneratorService.generateMongoId(), title, active);
+        await this.chainRepo.save(chain);
 
-        return await this.repo.save(entity);
+        return chain;
     }
 
     async update(id: string, dto: UpdateChainDto): Promise<Chain> {
-        const repo = this.connection.getRepository(Chain);
-        const entity: Chain = await this.getById(id);
+        const chain = await this.chainRepo.findById(id);
 
-        entity.active = dto.active;
-        await repo.save(entity);
+        if (!chain) {
+            throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+        }
 
-        return entity;
+        chain.active = dto.active;
+        await this.chainRepo.save(chain);
+
+        return chain;
+    }
+
+    async findById(id: string): Promise<Chain | null> {
+        return await this.chainRepo.findById(id);
     }
 }
