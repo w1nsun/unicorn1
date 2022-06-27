@@ -6,4 +6,8 @@ export class AuthMikroRepository extends EntityRepository<Auth> implements AuthR
     findById(id: string): Promise<Auth | null> {
         return this.findOne({ id });
     }
+
+    async save(entity: Auth): Promise<void> {
+        await this.em.persistAndFlush(entity);
+    }
 }

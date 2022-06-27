@@ -1,4 +1,4 @@
-import { Entity, EntityRepositoryType, Property } from '@mikro-orm/core';
+import { Entity, EntityRepositoryType, ManyToOne, Property } from '@mikro-orm/core';
 import { BaseEntity } from '@core/domain/entity/base.entity';
 import { ObjectId } from '@mikro-orm/mongodb';
 import { AgencyMikroRepository } from '@root/chain/infrastructure/repository/agency.mikro.repository';
@@ -12,8 +12,7 @@ export class Agency extends BaseEntity {
     @Property({ default: true })
     public active: boolean;
 
-    // @ManyToOne(() => Chain, (chain) => chain.id)
-    // @JoinColumn({ name: 'chain_id' })
+    @ManyToOne({ entity: () => Chain })
     public chain: Chain;
 
     [EntityRepositoryType]?: AgencyMikroRepository;

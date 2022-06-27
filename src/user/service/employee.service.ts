@@ -5,25 +5,18 @@ import { CreateEmployeeDto } from '../dto/create-employee.dto';
 import { Employee } from '../entity/employee-auth.entity';
 import { UpdateEmployeeDto } from '../dto/update-employee.dto';
 import { EmployeeNotFoundException } from '../exception/employee-not-found.exception';
-import { Chain } from '../../chain/domain/entity/chain.entity';
-import { AbstractEntityService } from '../../core/service/abstract-entity.service';
 import { EntityTarget } from 'typeorm/common/EntityTarget';
-import { ChainService } from '../../chain/application/service/chain.service';
 import { ConfigService } from '@nestjs/config';
+import { Chain } from '@root/chain/domain/entity/chain.entity';
 
 @Injectable()
-export class EmployeeService extends AbstractEntityService<Employee, CreateEmployeeDto, UpdateEmployeeDto> {
+export class EmployeeService {
     constructor(
-        connection: Connection,
-        uuidService: IdGeneratorService,
-        entityName: EntityTarget<Employee>,
-        private chainService: ChainService,
+        private connection: Connection,
+        private uuidService: IdGeneratorService,
+        private entityName: EntityTarget<Employee>,
         private configService: ConfigService,
-    ) {
-        super(connection, uuidService, entityName);
-
-        this.chainService = chainService;
-    }
+    ) {}
 
     async create(dto: CreateEmployeeDto): Promise<Employee> {
         const repo = this.connection.getRepository(Employee);
@@ -32,7 +25,7 @@ export class EmployeeService extends AbstractEntityService<Employee, CreateEmplo
         // const hashedPwd = await this.passwordHashGenerator.generate(password);
         const hashedPwd = 'ssss';
 
-        const chain: Chain = await this.chainService.getById(chainId);
+        const chain = new Chain(this.uuidService.generateMongoId(), 'ddd', true);
         const entity = new Employee(this.uuidService.generateUuidV4(), hashedPwd, phone, email, active, chain);
 
         return await repo.save(entity);

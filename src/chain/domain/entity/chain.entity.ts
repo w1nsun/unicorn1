@@ -1,18 +1,19 @@
-import { Entity, EntityRepositoryType, Property } from '@mikro-orm/core';
+import { Collection, Entity, EntityRepositoryType, OneToMany, Property } from '@mikro-orm/core';
 import { ChainMikroRepository } from '@root/chain/infrastructure/repository/chain.mikro.repository';
 import { ObjectId } from '@mikro-orm/mongodb';
 import { BaseEntity } from '@core/domain/entity/base.entity';
+import { Agency } from '@root/chain/domain/entity/agency.entity';
 
 @Entity({ tableName: 'chain_chain', customRepository: () => ChainMikroRepository })
 export class Chain extends BaseEntity {
     @Property({ nullable: false })
-    public title: string;
+    title: string;
 
     @Property({ default: true })
-    public active: boolean;
+    active: boolean;
 
-    // @OneToMany(() => Agency, (agency) => agency.chain)
-    // public agencies: Agency[];
+    @OneToMany({ entity: () => Agency, mappedBy: 'chain', orphanRemoval: true })
+    agencies = new Collection<Agency>(this);
 
     [EntityRepositoryType]?: ChainMikroRepository;
 

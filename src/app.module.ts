@@ -3,12 +3,14 @@ import { ConfigModule } from '@nestjs/config';
 import { CoreModule } from '@core/core.module';
 import { AuthModule } from '@auth/auth.module';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { ChainModule } from '@root/chain/chain.module';
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             envFilePath: process.env.NODE_ENV ? `.${process.env.NODE_ENV}.env` : '.env',
-            cache: true,
+            // cache: true,
+            isGlobal: true,
         }),
         MikroOrmModule.forRoot({
             type: 'mongo',
@@ -26,7 +28,8 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
             // useUnifiedTopology: true,
             // logging: true,
             // ssl: true,
-            entities: [],
+            // entities: [],
+            autoLoadEntities: true,
         }),
         // TypeOrmModule.forRoot({
         //     type: 'mongodb',
@@ -44,10 +47,11 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
         // }),
         CoreModule,
         // UserModule,
-        // ChainModule,
+        ChainModule,
         AuthModule,
         // FixtureModule,
     ],
+    exports: [ConfigModule],
     controllers: [],
     providers: [],
 })

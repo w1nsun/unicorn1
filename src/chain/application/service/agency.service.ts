@@ -39,4 +39,8 @@ export class AgencyService {
 
         return agency;
     }
+
+    async findById(id: string): Promise<Agency | null> {
+        return await this.agencyRepo.findById(id);
+    }
 }

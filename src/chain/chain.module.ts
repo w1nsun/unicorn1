@@ -10,16 +10,11 @@ import { ChainFixture } from './infrastructure/fixture/chain.fixture';
 import { CoreModule } from '@core/core.module';
 import { AgencyFixture } from './infrastructure/fixture/agency.fixture';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { AuthModule } from '@auth/auth.module';
 
 @Module({
-    imports: [MikroOrmModule.forFeature({ entities: [Chain, Agency] }), CoreModule],
-    providers: [
-        ChainService,
-        AgencyService,
-        ChainExistsValidator,
-        ChainFixture,
-        AgencyFixture,
-    ],
+    imports: [MikroOrmModule.forFeature({ entities: [Chain, Agency] }), CoreModule, AuthModule],
+    providers: [ChainService, AgencyService, ChainExistsValidator, ChainFixture, AgencyFixture],
     controllers: [ChainController, AgencyController],
     exports: [ChainService, ChainFixture, AgencyFixture],
 })

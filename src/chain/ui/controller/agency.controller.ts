@@ -1,5 +1,4 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Put } from '@nestjs/common';
-import { AbstractEntityController } from '@core/controller/abstract-entity.controller';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Agency } from '../../domain/entity/agency.entity';
 import { AgencyDto } from '../../application/dto/agency.dto';
@@ -9,36 +8,41 @@ import { AgencyService } from '../../application/service/agency.service';
 
 @ApiTags('Agency')
 @Controller('/agency')
-export class AgencyController extends AbstractEntityController<Agency, AgencyDto, UpdateAgencyDto, CreateAgencyDto> {
-    constructor(agencyService: AgencyService) {
-        super(agencyService, function (entity: Agency) {
-            return AgencyDto.fromEntity(entity);
-        });
-    }
+export class AgencyController {
+    constructor(private readonly agencyService: AgencyService) {}
 
-    @ApiResponse({ type: [AgencyDto] })
-    @Get()
-    async getAll(): Promise<AgencyDto[]> {
-        return super.getAll();
-    }
+    // @ApiResponse({ type: [AgencyDto] })
+    // @Get()
+    // async getAll(): Promise<AgencyDto[]> {
+    //     return super.getAll();
+    // }
 
     @ApiResponse({ type: [AgencyDto] })
     @Get(':id')
-    async getById(@Param('id', ParseUUIDPipe) id: string): Promise<AgencyDto> {
-        return super.getById(id);
+    async getById(@Param('id') id: string): Promise<AgencyDto> {
+        const agency = await this.agencyService.findById(id);
+        if (!agency) {
+            throw new HttpException('Agency not found!', HttpStatus.NOT_FOUND);
+        }
+
+        return AgencyDto.fromEntity(agency);
     }
 
     @ApiBody({ type: CreateAgencyDto })
     @ApiResponse({ type: AgencyDto })
     @Post()
     async create(@Body() dto: CreateAgencyDto): Promise<AgencyDto> {
-        return super.create(dto);
+        const agency = await this.agencyService.create(dto);
+
+        return AgencyDto.fromEntity(agency);
     }
 
     @ApiBody({ type: UpdateAgencyDto })
     @ApiResponse({ type: AgencyDto })
     @Put(':id')
-    async update(@Param('id', ParseUUIDPipe) id: string, @Body() dto: UpdateAgencyDto): Promise<AgencyDto> {
-        return super.update(id, dto);
+    async update(@Param('id') id: string, @Body() dto: UpdateAgencyDto): Promise<AgencyDto> {
+        const agency = await this.agencyService.update(id, dto);
+
+        return AgencyDto.fromEntity(agency);
     }
 }

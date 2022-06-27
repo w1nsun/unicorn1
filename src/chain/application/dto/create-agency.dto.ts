@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsUUID, MaxLength, MinLength } from 'class-validator';
+import { IsBoolean, IsMongoId, IsNotEmpty, MaxLength, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { ChainExists } from '../validator/chain-exists/chain-exists.decorator';
 
@@ -15,7 +15,7 @@ export class CreateAgencyDto {
 
     @ApiProperty()
     @IsNotEmpty()
-    @IsUUID()
+    @IsMongoId()
     @ChainExists()
     chainId: string;
 }
