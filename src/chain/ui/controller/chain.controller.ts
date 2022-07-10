@@ -25,11 +25,6 @@ export class ChainController {
             throw new HttpException('Chain not found!', HttpStatus.NOT_FOUND);
         }
 
-        console.log(chain.agencies);
-        for (const agency of chain.agencies) {
-            console.log(agency.title);
-        }
-
         return ChainDto.fromEntity(chain);
     }
 

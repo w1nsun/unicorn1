@@ -7,13 +7,13 @@ import { Agency } from '@root/chain/domain/entity/agency.entity';
 @Entity({ tableName: 'chain_chain', customRepository: () => ChainMikroRepository })
 export class Chain extends BaseEntity {
     @Property({ nullable: false })
-    title: string;
+    private title: string;
 
     @Property({ default: true })
-    active: boolean;
+    private active: boolean;
 
     @OneToMany({ entity: () => Agency, mappedBy: 'chain', orphanRemoval: true })
-    agencies = new Collection<Agency>(this);
+    private agencies = new Collection<Agency>(this);
 
     [EntityRepositoryType]?: ChainMikroRepository;
 
@@ -21,5 +21,21 @@ export class Chain extends BaseEntity {
         super(id);
         this.title = title;
         this.active = active;
+    }
+
+    getTitle(): string {
+        return this.title;
+    }
+
+    isActive(): boolean {
+        return this.active;
+    }
+
+    getAgencies(): Agency[] {
+        return this.agencies.getItems();
+    }
+
+    setAgencies(agencies): void {
+        this.agencies = agencies;
     }
 }

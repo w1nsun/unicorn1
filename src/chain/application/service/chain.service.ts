@@ -30,7 +30,7 @@ export class ChainService {
             throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
         }
 
-        chain.active = dto.active;
+        // chain.active = dto.active;
         await this.chainRepo.save(chain);
 
         return chain;

@@ -7,13 +7,13 @@ import { Chain } from '@root/chain/domain/entity/chain.entity';
 @Entity({ tableName: 'chain_agency', customRepository: () => AgencyMikroRepository })
 export class Agency extends BaseEntity {
     @Property({ nullable: false })
-    public title: string;
+    title: string;
 
     @Property({ default: true })
-    public active: boolean;
+    active: boolean;
 
     @ManyToOne({ entity: () => Chain })
-    public chain: Chain;
+    chain: Chain;
 
     [EntityRepositoryType]?: AgencyMikroRepository;
 

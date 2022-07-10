@@ -4,7 +4,7 @@ import { ChainRepository } from '@root/chain/domain/repository/chain.repository'
 
 export class ChainMikroRepository extends EntityRepository<Chain> implements ChainRepository {
     async findById(id: string): Promise<Chain | null> {
-        return await this.findOne({ id }, { populate: ['agencies'] });
+        return await this.findOne({ id }, { populate: ['setAgencies'] });
     }
 
     async save(entity: Chain): Promise<void> {
