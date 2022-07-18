@@ -1,44 +1,28 @@
-import {
-    Column,
-    CreateDateColumn,
-    Entity,
-    JoinColumn,
-    JoinTable,
-    ManyToMany,
-    ManyToOne,
-    PrimaryColumn,
-    UpdateDateColumn,
-} from 'typeorm';
 import { Chain } from './chain.entity';
-import { ServiceCategory } from './service-category.entity';
+import { Collection, Entity, EntityRepositoryType, ManyToMany, ManyToOne, Property } from '@mikro-orm/core';
+import { BaseEntity } from '@core/domain/entity/base.entity';
+import { ServiceMikroRepository } from '@root/chain/infrastructure/repository/service.mikro.repository';
+import { ObjectId } from '@mikro-orm/mongodb';
+import { Agency } from '@root/chain/domain/entity/agency.entity';
 
-@Entity('services')
-export class Service {
-    @PrimaryColumn({ type: 'uuid' })
-    public readonly id: string;
-
-    @Column({ nullable: false, length: 128, type: 'varchar' })
+@Entity({ tableName: 'chain_services', customRepository: () => ServiceMikroRepository })
+export class Service extends BaseEntity {
+    @Property({ nullable: false })
     public title: string;
 
-    @Column({ default: true })
+    @Property({ default: true })
     public active: boolean;
 
-    @ManyToOne(() => Chain, (chain) => chain.id)
-    @JoinColumn({ name: 'chain_id' })
-    public chain: Chain;
+    @ManyToOne({ entity: () => Chain })
+    chain: Chain;
 
-    @ManyToMany(() => ServiceCategory)
-    @JoinTable({ name: 'service__service_categories' })
-    public serviceCategories: ServiceCategory[];
+    @ManyToMany(() => Agency)
+    agencies: Collection<Agency> = new Collection<Agency>(this);
 
-    @CreateDateColumn()
-    public createdAt: Date;
+    [EntityRepositoryType]?: ServiceMikroRepository;
 
-    @UpdateDateColumn()
-    public updatedAt: Date | null;
-
-    constructor(id: string, title: string, active: boolean, chain: Chain) {
-        this.id = id;
+    constructor(id: ObjectId, title: string, active: boolean, chain: Chain) {
+        super(id);
         this.title = title;
         this.active = active;
         this.chain = chain;

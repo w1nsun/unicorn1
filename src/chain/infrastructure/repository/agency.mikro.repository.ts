@@ -1,13 +1,9 @@
-import { EntityRepository } from '@mikro-orm/mongodb';
 import { Agency } from '@root/chain/domain/entity/agency.entity';
 import { AgencyRepository } from '@root/chain/domain/repository/agency.repository';
+import { BaseRepository } from '@core/domain/repository/base.repository';
 
-export class AgencyMikroRepository extends EntityRepository<Agency> implements AgencyRepository {
+export class AgencyMikroRepository extends BaseRepository<Agency> implements AgencyRepository {
     async findById(id: string): Promise<Agency | null> {
         return await this.findOne({ id });
-    }
-
-    async save(entity: Agency): Promise<void> {
-        await this.em.persistAndFlush(entity);
     }
 }
