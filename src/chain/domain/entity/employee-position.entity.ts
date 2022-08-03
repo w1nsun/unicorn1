@@ -5,7 +5,7 @@ import { ChainPosition } from './chain-position.entity';
 @Entity('employee_positions')
 export class EmployeePosition {
     @PrimaryGeneratedColumn('uuid')
-    public id: string;
+    id: string;
 
     // @ManyToMany(() => Service)
     // @JoinTable({ name: 'position_services' })
@@ -17,15 +17,15 @@ export class EmployeePosition {
 
     @ManyToOne(() => ChainPosition, (chainPosition) => chainPosition.id)
     @JoinColumn({ name: 'chain_position_id' })
-    public chainPosition: ChainPosition;
+    chainPosition: ChainPosition;
 
     @ManyToOne(() => ChainEmployeeLevel, (chainEmployeeLevel) => chainEmployeeLevel.id)
     @JoinColumn({ name: 'chain_employee_level_id' })
-    public chainEmployeeLevel: ChainEmployeeLevel;
+    chainEmployeeLevel: ChainEmployeeLevel;
 
     @CreateDateColumn()
-    public createdAt: Date;
+    createdAt: Date;
 
     @UpdateDateColumn()
-    public updatedAt: Date | null;
+    updatedAt: Date | null;
 }

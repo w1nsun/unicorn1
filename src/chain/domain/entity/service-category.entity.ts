@@ -1,31 +1,42 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import { Chain } from './chain.entity';
+import { BaseEntity } from '@core/domain/entity/base.entity';
+import { Collection, Entity, EntityRepositoryType, ManyToMany, ManyToOne, Property } from '@mikro-orm/core';
+import { ObjectId } from '@mikro-orm/mongodb';
+import { Agency } from '@root/chain/domain/entity/agency.entity';
+import { ServiceCategoryMikroRepository } from '@root/chain/infrastructure/repository/service-category.mikro.repository';
 
-@Entity('service_categories')
-export class ServiceCategory {
-    @PrimaryColumn({ type: 'uuid' })
-    public readonly id: string;
+@Entity({ tableName: 'chain_service_categories', customRepository: () => ServiceCategoryMikroRepository })
+export class ServiceCategory extends BaseEntity {
+    @Property({ nullable: false })
+    title: string;
 
-    @Column({ nullable: false, length: 128, type: 'varchar' })
-    public title: string;
+    @Property({ default: true })
+    active: boolean;
 
-    @Column({ default: true })
-    public active: boolean;
+    @Property({ nullable: false, default: 0 })
+    index: number;
 
-    @ManyToOne(() => Chain, (chain) => chain.id)
-    @JoinColumn({ name: 'chain_id' })
-    public chain: Chain;
+    @Property({ nullable: true, default: null })
+    left: number | null;
 
-    @CreateDateColumn()
-    public createdAt: Date;
+    @Property({ nullable: true, default: null })
+    right: number | null;
 
-    @UpdateDateColumn()
-    public updatedAt: Date | null;
+    @ManyToOne({ entity: () => Chain })
+    chain: Chain;
 
-    constructor(id: string, title: string, active: boolean, chain: Chain) {
-        this.id = id;
+    @ManyToMany(() => Agency)
+    agencies: Collection<Agency> = new Collection<Agency>(this);
+
+    [EntityRepositoryType]?: ServiceCategoryMikroRepository;
+
+    constructor(id: ObjectId, title: string, active: boolean, chain: Chain) {
+        super(id);
         this.title = title;
         this.active = active;
         this.chain = chain;
+        this.index = 0;
+        this.left = null;
+        this.right = null;
     }
 }

@@ -22,4 +22,8 @@ export class Chain extends BaseEntity {
         this.title = title;
         this.active = active;
     }
+
+    getAgenciesAsArray(): Agency[] {
+        return this.agencies.getItems();
+    }
 }
